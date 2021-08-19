@@ -4,11 +4,15 @@ import { StyleSheet, Text, View } from "react-native";
 const Stopwatch = () => {
   return (
     <View>
-      <Text>Stopwatch</Text>
+      <Text style={styles.text}>Stopwatch</Text>
     </View>
   );
 };
 
 export default Stopwatch;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  text: {
+    color: "white",
+  },
+});

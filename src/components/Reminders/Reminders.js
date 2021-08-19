@@ -4,11 +4,15 @@ import { StyleSheet, Text, View } from "react-native";
 const Reminders = () => {
   return (
     <View>
-      <Text>Reminders</Text>
+      <Text style={styles.text}>Reminders</Text>
     </View>
   );
 };
 
 export default Reminders;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  text: {
+    color: "white",
+  },
+});

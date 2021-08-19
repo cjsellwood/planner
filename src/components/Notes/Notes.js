@@ -4,11 +4,15 @@ import { StyleSheet, Text, View } from "react-native";
 const Notes = () => {
   return (
     <View>
-      <Text>Notes</Text>
+      <Text style={styles.text}>Notes</Text>
     </View>
   );
 };
 
 export default Notes;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  text: {
+    color: "white",
+  },
+});

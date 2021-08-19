@@ -4,11 +4,15 @@ import { StyleSheet, Text, View } from "react-native";
 const Timer = () => {
   return (
     <View>
-      <Text>Timer</Text>
+      <Text style={styles.text}>Timer</Text>
     </View>
   );
 };
 
 export default Timer;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  text: {
+    color: "white",
+  },
+});
