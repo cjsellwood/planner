@@ -1,9 +1,10 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
 import { Provider } from "react-redux";
 import { applyMiddleware, combineReducers, createStore } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "remote-redux-devtools";
+import Main from "./src/components/Main";
+import { NativeRouter } from "react-router-native";
 
 import global from "./src/store/reducers/global";
 
@@ -19,20 +20,11 @@ const store = createStore(
 const App = () => {
   return (
     <Provider store={store}>
-      <View style={styles.container}>
-        <Text>Planner</Text>
-      </View>
+      <NativeRouter>
+        <Main />
+      </NativeRouter>
     </Provider>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
 
 export default App;
