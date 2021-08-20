@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
+import PauseIcon from "./PauseIcon";
+import PlayIcon from "./PlayIcon";
 
 const Stopwatch = () => {
   const [started, setStarted] = useState(false);
@@ -49,9 +51,9 @@ const Stopwatch = () => {
 
   let minute = null;
   if (timer > 1000 * 60 * 60) {
-    new Date(timer).getMinutes().toString().padStart(2, "0") + ":";
+    minute = new Date(timer).getMinutes().toString().padStart(2, "0") + ":";
   } else if (timer > 1000 * 60) {
-    new Date(timer).getMinutes() + ":";
+    minute = new Date(timer).getMinutes() + ":";
   }
 
   const hour = timer > 1000 * 60 * 60 ? new Date(timer).getHours() + ":" : null;
@@ -59,28 +61,36 @@ const Stopwatch = () => {
   return (
     <View style={styles.container}>
       <View style={styles.circleContainer}>
-        <View style={styles.circle}>
-          <Text style={styles.text}>
-            <React.Fragment>
-              <Text>{hour}</Text>
-              <Text>{minute}</Text>
-              <Text>{second}:</Text>
-              <Text>{millisecond}</Text>
-            </React.Fragment>
-          </Text>
-        </View>
+        <Pressable onPress={() => startTimer()} style={styles.circle}>
+          <View style={styles.timeContainer}>
+            <Text style={styles.text}>{hour}</Text>
+            <Text style={styles.text}>{minute}</Text>
+            <Text style={styles.text}>{second}:</Text>
+            <Text style={styles.text}>{millisecond}</Text>
+          </View>
+        </Pressable>
       </View>
       <View style={styles.bottomBarContainer}>
         <View style={styles.bottomBar}>
-          <Pressable onPress={() => resetTimer()} style={styles.button}>
-            <Text style={styles.buttonText}>Reset</Text>
-          </Pressable>
-          <Pressable onPress={() => startTimer()} style={styles.button}>
-            <Text style={styles.buttonText}>Start</Text>
-          </Pressable>
-          <Pressable style={styles.button}>
-            <Text style={styles.buttonText}>Lap</Text>
-          </Pressable>
+          <View style={styles.bottomBarItem}>
+            {timer === 0 ? null : (
+              <Pressable onPress={() => resetTimer()} style={styles.button}>
+                <Text style={styles.buttonText}>Reset</Text>
+              </Pressable>
+            )}
+          </View>
+          <View style={styles.bottomBarItem}>
+            <Pressable onPress={() => startTimer()} style={styles.button}>
+              <View style={styles.playPauseIcon}>
+                {!started ? <PlayIcon /> : <PauseIcon />}
+              </View>
+            </Pressable>
+          </View>
+          <View style={styles.bottomBarItem}>
+            <Pressable style={styles.button}>
+              <Text style={styles.buttonText}>Lap</Text>
+            </Pressable>
+          </View>
         </View>
       </View>
     </View>
@@ -113,6 +123,11 @@ const styles = StyleSheet.create({
     width: 250,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "yellow",
+  },
+  timeContainer: {
+    flexDirection: "row",
+    backgroundColor: "red",
   },
   bottomBarContainer: {
     height: 50,
@@ -121,15 +136,27 @@ const styles = StyleSheet.create({
   bottomBar: {
     flexDirection: "row",
     backgroundColor: "pink",
-    justifyContent: "space-around",
-    flex: 1,
     alignItems: "center",
     paddingLeft: 20,
     paddingRight: 20,
+    height: 50,
+  },
+  bottomBarItem: {
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
+    flexBasis: 1,
   },
   button: {
     backgroundColor: "purple",
     paddingHorizontal: 16,
     paddingVertical: 8,
+  },
+  buttonText: {
+    color: "white",
+  },
+  playPauseIcon: {
+    backgroundColor: "blue",
+    borderRadius: 50,
   },
 });
