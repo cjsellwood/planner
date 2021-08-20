@@ -10,7 +10,7 @@ import theme from "../../theme";
 const Navbar = () => {
   return (
     <View style={styles.navBar}>
-      <ScrollView horizontal={true}>
+      <ScrollView horizontal={true} contentContainerStyle={styles.bar}>
         <NavbarItem text="Notes" to="/notes" icon={<NotesIcon />} />
         <NavbarItem text="Reminders" to="/reminders" icon={<RemindersIcon />} />
         <NavbarItem text="Timer" to="/timer" icon={<TimerIcon />} />
@@ -32,5 +32,12 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 50,
     alignItems: "center",
+    justifyContent: "center",
   },
+  bar: {
+    flexDirection: "row",
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "space-evenly",
+  }
 });

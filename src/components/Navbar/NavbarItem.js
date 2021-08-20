@@ -5,7 +5,7 @@ import theme from "../../theme";
 
 const NavbarItem = ({ text, to, icon }) => {
   return (
-    <Pressable style={styles.item}>
+    <Pressable>
       <Link style={styles.link} to={to}>
         <View>
           {icon}
@@ -19,7 +19,6 @@ const NavbarItem = ({ text, to, icon }) => {
 export default NavbarItem;
 
 const styles = StyleSheet.create({
-  item: {},
   link: {
     padding: 8,
   },
