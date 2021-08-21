@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import PauseIcon from "./PauseIcon";
-import PlayIcon from "./PlayIcon";
+import { StyleSheet, View } from "react-native";
+import BottomBar from "./BottomBar";
+import Circle from "./Circle";
+import theme from "../../theme";
 
 const Stopwatch = () => {
   const [started, setStarted] = useState(false);
@@ -60,39 +61,19 @@ const Stopwatch = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.circleContainer}>
-        <Pressable onPress={() => startTimer()} style={styles.circle}>
-          <View style={styles.timeContainer}>
-            <Text style={styles.text}>{hour}</Text>
-            <Text style={styles.text}>{minute}</Text>
-            <Text style={styles.text}>{second}:</Text>
-            <Text style={styles.text}>{millisecond}</Text>
-          </View>
-        </Pressable>
-      </View>
-      <View style={styles.bottomBarContainer}>
-        <View style={styles.bottomBar}>
-          <View style={styles.bottomBarItem}>
-            {timer === 0 ? null : (
-              <Pressable onPress={() => resetTimer()} style={styles.button}>
-                <Text style={styles.buttonText}>Reset</Text>
-              </Pressable>
-            )}
-          </View>
-          <View style={styles.bottomBarItem}>
-            <Pressable onPress={() => startTimer()} style={styles.button}>
-              <View style={styles.playPauseIcon}>
-                {!started ? <PlayIcon /> : <PauseIcon />}
-              </View>
-            </Pressable>
-          </View>
-          <View style={styles.bottomBarItem}>
-            <Pressable style={styles.button}>
-              <Text style={styles.buttonText}>Lap</Text>
-            </Pressable>
-          </View>
-        </View>
-      </View>
+      <Circle
+        startTimer={startTimer}
+        hour={hour}
+        minute={minute}
+        second={second}
+        millisecond={millisecond}
+      />
+      <BottomBar
+        timer={timer}
+        started={started}
+        resetTimer={resetTimer}
+        startTimer={startTimer}
+      />
     </View>
   );
 };
@@ -101,62 +82,8 @@ export default Stopwatch;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "purple",
-    paddingBottom: 50,
+    backgroundColor: theme.colors.mainBackground,
+    paddingBottom: theme.navBarHeight,
     flex: 1,
-  },
-  circleContainer: {
-    flex: 1,
-    backgroundColor: "green",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  text: {
-    color: "white",
-    fontSize: 60,
-  },
-  circle: {
-    borderColor: "white",
-    borderWidth: 2,
-    borderRadius: 200,
-    height: 250,
-    width: 250,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "yellow",
-  },
-  timeContainer: {
-    flexDirection: "row",
-    backgroundColor: "red",
-  },
-  bottomBarContainer: {
-    height: 50,
-    backgroundColor: "red",
-  },
-  bottomBar: {
-    flexDirection: "row",
-    backgroundColor: "pink",
-    alignItems: "center",
-    paddingLeft: 20,
-    paddingRight: 20,
-    height: 50,
-  },
-  bottomBarItem: {
-    justifyContent: "center",
-    alignItems: "center",
-    flex: 1,
-    flexBasis: 1,
-  },
-  button: {
-    backgroundColor: "purple",
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-  },
-  buttonText: {
-    color: "white",
-  },
-  playPauseIcon: {
-    backgroundColor: "blue",
-    borderRadius: 50,
   },
 });
