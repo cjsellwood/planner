@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, Pressable } from "react-native";
 import { useSelector } from "react-redux";
-import useTimeDisplay from "./useTimeDisplay";
+import useTimeDisplay from "../../hooks/useTimeDisplay";
 
 const Circle = ({ playPausePress }) => {
   const timer = useSelector((state) => state.stopwatch.timer);

@@ -9,14 +9,19 @@ import {
   startTimer,
   resetTimer,
   changeTimer,
+  initTimer,
 } from "../../store/actions/stopwatch";
 
 const Stopwatch = () => {
   const [timerInterval, setTimerInterval] = useState(null);
 
-  const { started, startTime, offset } = useSelector(
+  const { started, startTime, offset, storageUsed } = useSelector(
     (state) => state.stopwatch
   );
+
+  useEffect(() => {
+    dispatch(initTimer());
+  }, []);
 
   useEffect(() => {
     if (started) {
@@ -25,7 +30,7 @@ const Stopwatch = () => {
       }, 10);
       setTimerInterval(interval);
     }
-  }, []);
+  }, [storageUsed]);
 
   useEffect(() => {
     return () => {
@@ -36,7 +41,6 @@ const Stopwatch = () => {
   const dispatch = useDispatch();
 
   const playPausePress = () => {
-    console.log(timerInterval, started, startTime, offset);
     // If already started pause instead
     if (started) {
       dispatch(pauseTimer(Date.now() - startTime + offset));
