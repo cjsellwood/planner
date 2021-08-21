@@ -7,9 +7,11 @@ import Main from "./src/components/Main";
 import { NativeRouter } from "react-router-native";
 
 import global from "./src/store/reducers/global";
+import stopwatch from "./src/store/reducers/stopwatch";
 
 const rootReducer = combineReducers({
   global: global,
+  stopwatch: stopwatch,
 });
 
 const store = createStore(

@@ -1,7 +1,7 @@
 const theme = {
   colors: {
     navBarText: "white",
-    navBarBackground: "#222222",
+    navBarBackground: "#111111",
     mainBackground: "#333333",
     stopwatchButton: "turquoise"
   },

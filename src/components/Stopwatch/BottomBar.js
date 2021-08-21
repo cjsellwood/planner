@@ -1,22 +1,27 @@
 import React from "react";
 import { StyleSheet, Text, View, Pressable } from "react-native";
+import { useSelector } from "react-redux";
 import theme from "../../theme";
 import PauseIcon from "./PauseIcon";
 import PlayIcon from "./PlayIcon";
 
-const BottomBar = ({ timer, started, resetTimer, startTimer }) => {
+const BottomBar = ({ resetPress, playPausePress }) => {
+  const { timer, started } = useSelector((state) => state.stopwatch);
   return (
     <View style={styles.bottomBarContainer}>
       <View style={styles.bottomBar}>
         <View style={styles.bottomBarItem}>
           {timer === 0 ? null : (
-            <Pressable onPress={() => resetTimer()} style={styles.button}>
+            <Pressable onPress={() => resetPress()} style={styles.button}>
               <Text style={styles.buttonText}>Reset</Text>
             </Pressable>
           )}
         </View>
         <View style={styles.bottomBarItem}>
-          <Pressable onPress={() => startTimer()} style={styles.playPauseIcon}>
+          <Pressable
+            onPress={() => playPausePress()}
+            style={styles.playPauseIcon}
+          >
             {!started ? <PlayIcon /> : <PauseIcon />}
           </Pressable>
         </View>

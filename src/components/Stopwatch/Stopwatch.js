@@ -1,79 +1,70 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import BottomBar from "./BottomBar";
 import Circle from "./Circle";
 import theme from "../../theme";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  pauseTimer,
+  startTimer,
+  resetTimer,
+  changeTimer,
+} from "../../store/actions/stopwatch";
 
 const Stopwatch = () => {
-  const [started, setStarted] = useState(false);
-  const [timer, setTimer] = useState(0);
-  const [timerInterval, setTimerInterval] = useState();
-  const [startTime, setStartTime] = useState();
-  const [offset, setOffset] = useState(0);
+  const [timerInterval, setTimerInterval] = useState(null);
 
-  const startTimer = () => {
+  const { started, startTime, offset } = useSelector(
+    (state) => state.stopwatch
+  );
+
+  useEffect(() => {
+    if (started) {
+      const interval = setInterval(() => {
+        dispatch(changeTimer(Date.now() - startTime + offset));
+      }, 10);
+      setTimerInterval(interval);
+    }
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      clearInterval(timerInterval);
+    };
+  }, [timerInterval]);
+
+  const dispatch = useDispatch();
+
+  const playPausePress = () => {
+    console.log(timerInterval, started, startTime, offset);
     // If already started pause instead
     if (started) {
-      setTimer(Date.now() - startTime + offset);
-      setOffset(Date.now() - startTime + offset);
-      setStarted(false);
+      dispatch(pauseTimer(Date.now() - startTime + offset));
       clearInterval(timerInterval);
+      setTimerInterval(timerInterval);
       return;
     }
 
     const newStartTime = Date.now();
-    setStartTime(newStartTime);
-    setStarted(true);
+    dispatch(startTimer(newStartTime));
 
-    // Set interval for timer to show change
-    setTimerInterval(
-      setInterval(() => {
-        setTimer(Date.now() - newStartTime + offset);
-      }, 10)
-    );
+    // Set interval for changing displayed time
+    const interval = setInterval(() => {
+      dispatch(changeTimer(Date.now() - newStartTime + offset));
+    }, 10);
+    setTimerInterval(interval);
   };
 
-  const resetTimer = () => {
-    setStarted(false);
-    setTimer(0);
-    setOffset(0);
-    setStartTime();
+  const resetPress = () => {
+    dispatch(resetTimer());
     clearInterval(timerInterval);
+    setTimerInterval(null);
   };
-
-  const millisecond = Math.floor(new Date(timer).getMilliseconds() / 10)
-    .toString()
-    .padStart(2, "0");
-
-  const second =
-    timer > 1000 * 10
-      ? new Date(timer).getSeconds().toString().padStart(2, "0")
-      : new Date(timer).getSeconds();
-
-  let minute = null;
-  if (timer > 1000 * 60 * 60) {
-    minute = new Date(timer).getMinutes().toString().padStart(2, "0") + ":";
-  } else if (timer > 1000 * 60) {
-    minute = new Date(timer).getMinutes() + ":";
-  }
-
-  const hour = timer > 1000 * 60 * 60 ? new Date(timer).getHours() + ":" : null;
 
   return (
     <View style={styles.container}>
-      <Circle
-        startTimer={startTimer}
-        hour={hour}
-        minute={minute}
-        second={second}
-        millisecond={millisecond}
-      />
-      <BottomBar
-        timer={timer}
-        started={started}
-        resetTimer={resetTimer}
-        startTimer={startTimer}
-      />
+      <Circle playPausePress={playPausePress} />
+      <BottomBar resetPress={resetPress} playPausePress={playPausePress} />
     </View>
   );
 };

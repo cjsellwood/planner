@@ -1,23 +1,18 @@
 import React from "react";
 import { StyleSheet, Text, View, Pressable } from "react-native";
-import theme from "../../theme";
+import { useSelector } from "react-redux";
+import useTimeDisplay from "./useTimeDisplay";
 
-const Circle = ({ startTimer, hour, minute, second, millisecond }) => {
+const Circle = ({ playPausePress }) => {
+  const timer = useSelector((state) => state.stopwatch.timer);
+  const [hour, timeDisplay] = useTimeDisplay(timer);
+
   return (
     <View style={styles.circleContainer}>
-      <Pressable onPress={() => startTimer()} style={styles.circle}>
+      <Pressable onPress={() => playPausePress()} style={styles.circle}>
         <View style={styles.timeContainer}>
           <Text style={[styles.text, hour > 100 ? styles.smallText : null]}>
-            {hour}
-          </Text>
-          <Text style={[styles.text, hour > 100 ? styles.smallText : null]}>
-            {minute}
-          </Text>
-          <Text style={[styles.text, hour > 100 ? styles.smallText : null]}>
-            {second}:
-          </Text>
-          <Text style={[styles.text, hour > 100 ? styles.smallText : null]}>
-            {millisecond}
+            {timeDisplay}
           </Text>
         </View>
       </Pressable>
