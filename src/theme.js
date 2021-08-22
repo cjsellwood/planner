@@ -3,7 +3,7 @@ const theme = {
     navBarText: "white",
     navBarBackground: "#111111",
     mainBackground: "#333333",
-    stopwatchButton: "turquoise"
+    primary: "turquoise"
   },
   navBarHeight: 70,
 };

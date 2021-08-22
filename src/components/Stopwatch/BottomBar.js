@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   playPauseIcon: {
-    backgroundColor: theme.colors.stopwatchButton,
+    backgroundColor: theme.colors.primary,
     borderRadius: 50,
     padding: 16,
   },

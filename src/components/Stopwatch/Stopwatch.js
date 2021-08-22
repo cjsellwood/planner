@@ -11,18 +11,27 @@ import {
   changeTimer,
   initTimer,
 } from "../../store/actions/stopwatch";
+import { setPage } from "../../store/actions/global";
 
 const Stopwatch = () => {
   const [timerInterval, setTimerInterval] = useState(null);
 
+  const dispatch = useDispatch();
   const { started, startTime, offset, storageUsed } = useSelector(
     (state) => state.stopwatch
   );
 
+  // Set highlighted navbar tab
+  useEffect(() => {
+    dispatch(setPage("Stopwatch"));
+  }, []);
+
+  // Retrieve any stored timer values
   useEffect(() => {
     dispatch(initTimer());
   }, []);
 
+  // Start interval if stored values should make the timer run
   useEffect(() => {
     if (started) {
       const interval = setInterval(() => {
@@ -32,13 +41,13 @@ const Stopwatch = () => {
     }
   }, [storageUsed]);
 
+  // Clear the currently used interval on unmount of stopwatch component
   useEffect(() => {
     return () => {
       clearInterval(timerInterval);
     };
   }, [timerInterval]);
 
-  const dispatch = useDispatch();
 
   const playPausePress = () => {
     // If already started pause instead

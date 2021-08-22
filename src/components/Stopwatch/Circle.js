@@ -11,7 +11,7 @@ const Circle = ({ playPausePress }) => {
     <View style={styles.circleContainer}>
       <Pressable onPress={() => playPausePress()} style={styles.circle}>
         <View style={styles.timeContainer}>
-          <Text style={[styles.text, hour > 100 ? styles.smallText : null]}>
+          <Text style={[styles.text, hour > 10 ? styles.smallText : null]}>
             {timeDisplay}
           </Text>
         </View>

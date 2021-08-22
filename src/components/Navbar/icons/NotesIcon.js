@@ -1,33 +1,14 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
-import Svg, { Path } from "react-native-svg";
-import theme from "../../../theme";
+import { Path } from "react-native-svg";
+import IconWrapper from "./IconWrapper";
 
 const NotesIcon = () => {
   return (
-    <View>
-      <Svg {...svgProps} style={styles.svg}>
-        <Path d="M5 4a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1H5zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1H5zm0 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1H5z" />
-        <Path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z" />
-      </Svg>
-    </View>
+    <IconWrapper icon="Notes">
+      <Path d="M5 4a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1H5zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1H5zm0 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1H5z" />
+      <Path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z" />
+    </IconWrapper>
   );
-};
-
-const styles = StyleSheet.create({
-  svg: {
-    marginLeft: "auto",
-    marginRight: "auto",
-    color: theme.colors.navBarText,
-  },
-});
-
-const svgProps = {
-  xmlns: "http://www.w3.org/2000/svg",
-  width: "16",
-  height: "16",
-  fill: theme.colors.navBarText,
-  viewBox: "0 0 16 16",
 };
 
 export default NotesIcon;
