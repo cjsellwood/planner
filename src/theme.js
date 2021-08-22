@@ -5,7 +5,7 @@ const theme = {
     mainBackground: "#333333",
     primary: "turquoise"
   },
-  navBarHeight: 70,
+  navBarHeight: 60,
 };
 
 export default theme;

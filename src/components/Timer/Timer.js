@@ -1,7 +1,11 @@
 import React, { useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { setPage } from "../../store/actions/global";
 import { useDispatch } from "react-redux";
+import TimerInput from "./TimerInput";
+import Keypad from "./Keypad";
+import BottomBar from "./BottomBar";
+import theme from "../../theme";
 
 const Timer = () => {
   const dispatch = useDispatch();
@@ -13,7 +17,9 @@ const Timer = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Timer</Text>
+      <TimerInput />
+      <Keypad />
+      <BottomBar />
     </View>
   );
 };
@@ -21,13 +27,8 @@ const Timer = () => {
 export default Timer;
 
 const styles = StyleSheet.create({
-  text: {
-    color: "white",
-    fontSize: 30,
-  },
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    paddingBottom: theme.navBarHeight,
   },
 });

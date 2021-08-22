@@ -2,15 +2,15 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import Svg, { Path } from "react-native-svg";
 
-const PauseIcon = () => {
+const BackspaceIcon = () => {
   return (
     <Svg {...svgProps} style={styles.svg}>
-      <Path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z" />
+      <Path d="M15.683 3a2 2 0 0 0-2-2h-7.08a2 2 0 0 0-1.519.698L.241 7.35a1 1 0 0 0 0 1.302l4.843 5.65A2 2 0 0 0 6.603 15h7.08a2 2 0 0 0 2-2V3zM5.829 5.854a.5.5 0 1 1 .707-.708l2.147 2.147 2.146-2.147a.5.5 0 1 1 .707.708L9.39 8l2.146 2.146a.5.5 0 0 1-.707.708L8.683 8.707l-2.147 2.147a.5.5 0 0 1-.707-.708L7.976 8 5.829 5.854z" />
     </Svg>
   );
 };
 
-export default PauseIcon;
+export default BackspaceIcon;
 
 const styles = StyleSheet.create({
   svg: {
@@ -22,8 +22,8 @@ const styles = StyleSheet.create({
 
 const svgProps = {
   xmlns: "http://www.w3.org/2000/svg",
-  width: "28",
-  height: "28",
+  width: "24",
+  height: "24",
   fill: "currentColor",
   viewBox: "0 0 16 16",
 };

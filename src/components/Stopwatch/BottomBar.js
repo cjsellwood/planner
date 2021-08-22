@@ -37,13 +37,12 @@ export default BottomBar;
 
 const styles = StyleSheet.create({
   bottomBarContainer: {
-    height: 60,
+    height: 70,
   },
   bottomBar: {
     flexDirection: "row",
     alignItems: "center",
-    paddingLeft: 20,
-    paddingRight: 20,
+    paddingHorizontal: 20,
     height: 70,
     paddingBottom: 10,
   },
