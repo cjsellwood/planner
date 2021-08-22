@@ -11,8 +11,20 @@ export const backspaceInput = () => {
   };
 };
 
-export const longBackspaceInput = () => {
+export const clearTimerInput = () => {
   return {
-    type: "LONG_BACKSPACE_INPUT",
+    type: "CLEAR_TIMER_INPUT",
+  };
+};
+
+export const startTimer = () => {
+  return {
+    type: "START_TIMER",
+  };
+};
+
+export const deleteTimer = () => {
+  return {
+    type: "DELETE_TIMER",
   };
 };

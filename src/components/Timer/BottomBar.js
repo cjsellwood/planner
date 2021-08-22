@@ -3,19 +3,33 @@ import { StyleSheet, Pressable, View, Text } from "react-native";
 import PlayIcon from "../Stopwatch/PlayIcon";
 import PauseIcon from "../Stopwatch/PauseIcon";
 import theme from "../../theme";
+import { useDispatch, useSelector } from "react-redux";
+import { startTimer, deleteTimer } from "../../store/actions/timer";
 
 const BottomBar = () => {
+  const dispatch = useDispatch();
+  const { timerInput, started } = useSelector((state) => state.timer);
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
-        <Pressable style={styles.button}>
-          <Text style={styles.buttonText}>Delete</Text>
-        </Pressable>
+        {!started ? null : (
+          <Pressable
+            style={styles.button}
+            onPress={() => dispatch(deleteTimer())}
+          >
+            <Text style={styles.buttonText}>Delete</Text>
+          </Pressable>
+        )}
       </View>
       <View style={styles.buttonContainer}>
-        <Pressable style={styles.playPauseIcon}>
-          <PlayIcon />
-        </Pressable>
+        {timerInput.every((number) => number === 0) ? null : (
+          <Pressable
+            style={styles.playPauseIcon}
+            onPress={() => dispatch(startTimer())}
+          >
+            <PlayIcon />
+          </Pressable>
+        )}
       </View>
       <View style={styles.buttonContainer}>
         <Pressable></Pressable>

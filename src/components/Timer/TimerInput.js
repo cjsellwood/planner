@@ -2,7 +2,7 @@ import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import BackspaceIcon from "./icons/BackspaceIcon";
-import { backspaceInput, longBackspaceInput } from "../../store/actions/timer";
+import { backspaceInput, clearTimerInput } from "../../store/actions/timer";
 
 const TimerInput = () => {
   const timerInput = useSelector((state) => state.timer.timerInput);
@@ -25,7 +25,7 @@ const TimerInput = () => {
         <Text style={styles.timeLabel}>s </Text>
         <Pressable
           onPress={() => dispatch(backspaceInput())}
-          onLongPress={() => dispatch(longBackspaceInput())}
+          onLongPress={() => dispatch(clearTimerInput())}
           style={styles.backspace}
         >
           <BackspaceIcon />

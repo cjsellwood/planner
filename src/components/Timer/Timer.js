@@ -1,14 +1,16 @@
 import React, { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { setPage } from "../../store/actions/global";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import TimerInput from "./TimerInput";
 import Keypad from "./Keypad";
 import BottomBar from "./BottomBar";
 import theme from "../../theme";
+import Circle from "./Circle";
 
 const Timer = () => {
   const dispatch = useDispatch();
+  const { started } = useSelector((state) => state.timer);
 
   // Set highlighted navbar tab
   useEffect(() => {
@@ -17,8 +19,15 @@ const Timer = () => {
 
   return (
     <View style={styles.container}>
-      <TimerInput />
-      <Keypad />
+      {started ? (
+        <Circle />
+      ) : (
+        <React.Fragment>
+          <TimerInput />
+          <Keypad />
+        </React.Fragment>
+      )}
+
       <BottomBar />
     </View>
   );
