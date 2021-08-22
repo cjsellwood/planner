@@ -6,12 +6,12 @@ import PauseIcon from "./PauseIcon";
 import PlayIcon from "./PlayIcon";
 
 const BottomBar = ({ resetPress, playPausePress }) => {
-  const { timer, started } = useSelector((state) => state.stopwatch);
+  const { stopwatch, started } = useSelector((state) => state.stopwatch);
   return (
     <View style={styles.bottomBarContainer}>
       <View style={styles.bottomBar}>
         <View style={styles.bottomBarItem}>
-          {timer === 0 ? null : (
+          {stopwatch === 0 ? null : (
             <Pressable onPress={() => resetPress()} style={styles.button}>
               <Text style={styles.buttonText}>Reset</Text>
             </Pressable>

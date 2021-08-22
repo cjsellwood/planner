@@ -2,6 +2,9 @@ const initialState = {
   timer: 0,
   timerInput: [0, 0, 0, 0, 0, 0],
   started: false,
+  startTime: 0,
+  paused: true,
+  finished: false,
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -27,20 +30,46 @@ const reducer = (state = initialState, action) => {
         timerInput: initialState.timerInput,
       };
     case "START_TIMER":
-      const hours = state.timerInput[0] * 10 + state.timerInput[1];
-      const mins = state.timerInput[2] * 10 + state.timerInput[3];
-      const secs = state.timerInput[4] * 10 + state.timerInput[5];
       return {
         ...state,
         started: true,
-        timer: 1000 * (hours * 60 * 60 + mins * 60 + secs),
+        paused: false,
+        startTime: action.startTime,
+        timer: action.timer,
+      };
+    case "PAUSE_TIMER":
+      return {
+        ...state,
+        paused: true,
+        timer: action.timer,
       };
     case "DELETE_TIMER":
       return {
         ...state,
         timerInput: initialState.timerInput,
         started: false,
+        paused: true,
+        startTime: 0,
         timer: 0,
+        finished: false,
+      };
+    case "CHANGE_TIMER":
+      return {
+        ...state,
+        timer: action.timer,
+      };
+    case "FINISH_TIMER":
+      return {
+        ...state,
+        timer: 0,
+        finished: true,
+      };
+    case "STOP_TIMER":
+      return {
+        ...state,
+        timer: action.timer,
+        finished: false,
+        paused: true,
       };
     default:
       return state;

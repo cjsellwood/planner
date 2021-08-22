@@ -17,14 +17,43 @@ export const clearTimerInput = () => {
   };
 };
 
-export const startTimer = () => {
+export const startTimer = (startTime, timer) => {
   return {
     type: "START_TIMER",
+    startTime,
+    timer,
+  };
+};
+
+export const pauseTimer = (timer) => {
+  return {
+    type: "PAUSE_TIMER",
+    timer,
   };
 };
 
 export const deleteTimer = () => {
   return {
     type: "DELETE_TIMER",
+  };
+};
+
+export const changeTimer = (timer) => {
+  return {
+    type: "CHANGE_TIMER",
+    timer,
+  };
+};
+
+export const finishTimer = () => {
+  return {
+    type: "FINISH_TIMER",
+  };
+};
+
+export const stopTimer = (timer) => {
+  return {
+    type: "STOP_TIMER",
+    timer,
   };
 };

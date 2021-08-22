@@ -3,33 +3,44 @@ import { StyleSheet, Pressable, View, Text } from "react-native";
 import PlayIcon from "../Stopwatch/PlayIcon";
 import PauseIcon from "../Stopwatch/PauseIcon";
 import theme from "../../theme";
-import { useDispatch, useSelector } from "react-redux";
-import { startTimer, deleteTimer } from "../../store/actions/timer";
+import { useSelector } from "react-redux";
+import StopIcon from "./icons/StopIcon";
 
-const BottomBar = () => {
-  const dispatch = useDispatch();
-  const { timerInput, started } = useSelector((state) => state.timer);
+const BottomBar = ({ playPress, pausePress, deletePress, stopPress }) => {
+  const { timerInput, started, paused, finished } = useSelector(
+    (state) => state.timer
+  );
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
         {!started ? null : (
-          <Pressable
-            style={styles.button}
-            onPress={() => dispatch(deleteTimer())}
-          >
+          <Pressable style={styles.button} onPress={() => deletePress()}>
             <Text style={styles.buttonText}>Delete</Text>
           </Pressable>
         )}
       </View>
       <View style={styles.buttonContainer}>
-        {timerInput.every((number) => number === 0) ? null : (
+        {timerInput.every((number) => number === 0) || !paused ? null : (
           <Pressable
             style={styles.playPauseIcon}
-            onPress={() => dispatch(startTimer())}
+            onPress={() => playPress(timerInput)}
           >
             <PlayIcon />
           </Pressable>
         )}
+        {started && !paused && !finished ? (
+          <Pressable style={styles.playPauseIcon} onPress={() => pausePress()}>
+            <PauseIcon />
+          </Pressable>
+        ) : null}
+        {finished ? (
+          <Pressable
+            style={styles.playPauseIcon}
+            onPress={() => stopPress(timerInput)}
+          >
+            <StopIcon />
+          </Pressable>
+        ) : null}
       </View>
       <View style={styles.buttonContainer}>
         <Pressable></Pressable>

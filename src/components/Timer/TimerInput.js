@@ -5,7 +5,7 @@ import BackspaceIcon from "./icons/BackspaceIcon";
 import { backspaceInput, clearTimerInput } from "../../store/actions/timer";
 
 const TimerInput = () => {
-  const timerInput = useSelector((state) => state.timer.timerInput);
+  const {timerInput} = useSelector((state) => state.timer);
   const dispatch = useDispatch();
 
   return (

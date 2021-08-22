@@ -4,14 +4,15 @@ import { useSelector } from "react-redux";
 
 const Circle = () => {
   const { timer } = useSelector((state) => state.timer);
-  console.log(timer);
 
   return (
     <View style={styles.circleContainer}>
       <Pressable onPress={() => {}} style={styles.circle}>
         <View style={styles.timeContainer}>
           {timer >= 1000 * 60 * 60 ? (
-            <Text style={styles.text}>{Math.floor(timer / 1000 / 60 / 60)}:</Text>
+            <Text style={styles.text}>
+              {Math.floor(timer / 1000 / 60 / 60)}:
+            </Text>
           ) : null}
           {timer >= 1000 * 60 * 60 ? (
             <Text style={styles.text}>
@@ -25,7 +26,9 @@ const Circle = () => {
               {new Date(timer).getSeconds().toString().padStart(2, "0")}
             </Text>
           ) : (
-            <Text style={styles.text}>{new Date(timer).getSeconds()}</Text>
+            <Text style={styles.text}>
+              {Math.ceil(new Date(timer).getSeconds())}
+            </Text>
           )}
         </View>
       </Pressable>

@@ -1,6 +1,6 @@
 const initialState = {
   started: false,
-  timer: 0,
+  stopwatch: 0,
   startTime: 0,
   offset: 0,
   storageUsed: false,
@@ -19,13 +19,13 @@ const reducer = (state = initialState, action) => {
     case "CHANGE_TIMER":
       return {
         ...state,
-        timer: action.timer,
+        stopwatch: action.stopwatch,
       };
     case "RESET_TIMER": {
       const newState = {
         ...state,
         started: false,
-        timer: 0,
+        stopwatch: 0,
         offset: 0,
         startTime: 0,
       };
@@ -34,22 +34,22 @@ const reducer = (state = initialState, action) => {
     case "PAUSE_TIMER": {
       const newState = {
         ...state,
-        timer: action.pauseTime,
+        stopwatch: action.pauseTime,
         offset: action.pauseTime,
         started: false,
       };
       return newState;
     }
     case "INIT_TIMER": {
-      let timer = action.stored.timer;
+      let stopwatch = action.stored.stopwatch;
       if (action.stored.started) {
-        timer = Date.now() - action.stored.startTime + action.stored.offset;
+        stopwatch = Date.now() - action.stored.startTime + action.stored.offset;
       }
       return {
         ...state,
         ...action.stored,
         storageUsed: true,
-        timer,
+        stopwatch,
       };
     }
     default:

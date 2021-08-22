@@ -18,7 +18,7 @@ export const pauseTimer = (pauseTime) => {
     const stored = await get("stopwatch");
     await store({
       ...stored,
-      timer: pauseTime,
+      stopwatch: pauseTime,
       offset: pauseTime,
       started: false,
     });
@@ -35,7 +35,7 @@ export const resetTimer = () => {
     await store({
       ...stored,
       started: false,
-      timer: 0,
+      stopwatch: 0,
       offset: 0,
       startTime: 0,
     });
@@ -45,10 +45,10 @@ export const resetTimer = () => {
   };
 };
 
-export const changeTimer = (timer) => {
+export const changeTimer = (stopwatch) => {
   return {
     type: "CHANGE_TIMER",
-    timer,
+    stopwatch,
   };
 };
 
