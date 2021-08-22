@@ -5,16 +5,16 @@ import Circle from "./Circle";
 import theme from "../../theme";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  pauseTimer,
-  startTimer,
-  resetTimer,
-  changeTimer,
-  initTimer,
+  pauseStopwatch,
+  startStopwatch,
+  resetStopwatch,
+  changeStopwatch,
+  initStopwatch,
 } from "../../store/actions/stopwatch";
 import { setPage } from "../../store/actions/global";
 
 const Stopwatch = () => {
-  const [timerInterval, setTimerInterval] = useState(null);
+  const [stopwatchInterval, setStopwatchInterval] = useState(null);
 
   const dispatch = useDispatch();
   const { started, startTime, offset, storageUsed } = useSelector(
@@ -28,50 +28,50 @@ const Stopwatch = () => {
 
   // Retrieve any stored timer values
   useEffect(() => {
-    dispatch(initTimer());
+    dispatch(initStopwatch());
   }, []);
 
   // Start interval if stored values should make the timer run
   useEffect(() => {
     if (started) {
       const interval = setInterval(() => {
-        dispatch(changeTimer(Date.now() - startTime + offset));
+        dispatch(changeStopwatch(Date.now() - startTime + offset));
       }, 10);
-      setTimerInterval(interval);
+      setStopwatchInterval(interval);
     }
   }, [storageUsed]);
 
   // Clear the currently used interval on unmount of stopwatch component
   useEffect(() => {
     return () => {
-      clearInterval(timerInterval);
+      clearInterval(stopwatchInterval);
     };
-  }, [timerInterval]);
+  }, [stopwatchInterval]);
 
 
   const playPausePress = () => {
     // If already started pause instead
     if (started) {
-      dispatch(pauseTimer(Date.now() - startTime + offset));
-      clearInterval(timerInterval);
-      setTimerInterval(timerInterval);
+      dispatch(pauseStopwatch(Date.now() - startTime + offset));
+      clearInterval(stopwatchInterval);
+      setStopwatchInterval(stopwatchInterval);
       return;
     }
 
     const newStartTime = Date.now();
-    dispatch(startTimer(newStartTime));
+    dispatch(startStopwatch(newStartTime));
 
     // Set interval for changing displayed time
     const interval = setInterval(() => {
-      dispatch(changeTimer(Date.now() - newStartTime + offset));
+      dispatch(changeStopwatch(Date.now() - newStartTime + offset));
     }, 10);
-    setTimerInterval(interval);
+    setStopwatchInterval(interval);
   };
 
   const resetPress = () => {
-    dispatch(resetTimer());
-    clearInterval(timerInterval);
-    setTimerInterval(null);
+    dispatch(resetStopwatch());
+    clearInterval(stopwatchInterval);
+    setStopwatchInterval(null);
   };
 
   return (

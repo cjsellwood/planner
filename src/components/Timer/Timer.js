@@ -14,17 +14,50 @@ import {
   changeTimer,
   finishTimer,
   stopTimer,
+  initTimer,
 } from "../../store/actions/timer";
+import { Audio } from "expo-av";
 
 const Timer = () => {
   const [intervalId, setIntervalId] = useState(null);
   const dispatch = useDispatch();
-  const { started, timer, startTime } = useSelector((state) => state.timer);
+  const { started, endTime, paused, timer, storageUsed, finished } =
+    useSelector((state) => state.timer);
 
   // Set highlighted navbar tab
   useEffect(() => {
     dispatch(setPage("Timer"));
   }, []);
+
+  // Retrieve any stored timer values
+  useEffect(() => {
+    dispatch(initTimer());
+  }, []);
+
+  // Start interval if stored values should make the timer run
+  useEffect(() => {
+    if (started && !paused) {
+      console.log("starting timer");
+      const interval = setInterval(() => {
+        // Stop interval if once 0 reached
+        if (endTime - Date.now() <= 0) {
+          clearInterval(interval);
+          setIntervalId(null);
+          dispatch(finishTimer());
+          return;
+        }
+        dispatch(changeTimer(endTime - Date.now()));
+      }, 200);
+      setIntervalId(interval);
+    }
+  }, [storageUsed]);
+
+  // Clear the currently used interval on unmount of timer component
+  useEffect(() => {
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [intervalId]);
 
   const convertToTimer = (timerInput) => {
     const hours = timerInput[0] * 10 + timerInput[1];
@@ -34,26 +67,31 @@ const Timer = () => {
     return timer;
   };
 
-  console.log(timer);
   const playPress = (timerInput) => {
     // If on first press, get the entered time
     let newTimer = timer;
     if (timer === 0) {
       newTimer = convertToTimer(timerInput);
     }
-
-    const newStartTime = Date.now();
-    dispatch(startTimer(newStartTime, newTimer));
+    const newEndTime = Date.now() + newTimer;
+    dispatch(startTimer(newEndTime, newTimer));
 
     const interval = setInterval(() => {
       // Stop interval if once 0 reached
-      if (newStartTime + newTimer - Date.now() <= 0) {
+      if (newEndTime - Date.now() <= 0) {
         clearInterval(interval);
         setIntervalId(null);
         dispatch(finishTimer());
+
+        clearInterval(beepInterval);
+        playSound();
+        const interval = setInterval(() => {
+          playSound();
+        }, 1000);
+        setBeepInterval(interval);
         return;
       }
-      dispatch(changeTimer(newStartTime + newTimer - Date.now()));
+      dispatch(changeTimer(newEndTime - Date.now()));
     }, 200);
     setIntervalId(interval);
   };
@@ -61,18 +99,51 @@ const Timer = () => {
   const pausePress = () => {
     clearInterval(intervalId);
     setIntervalId(null);
-    dispatch(pauseTimer(startTime + timer - Date.now()));
+    dispatch(pauseTimer(endTime - Date.now()));
   };
 
   const deletePress = () => {
+    clearInterval(beepInterval);
     clearInterval(intervalId);
     setIntervalId(null);
     dispatch(deleteTimer());
   };
 
   const stopPress = (timerInput) => {
+    clearInterval(beepInterval);
     dispatch(stopTimer(convertToTimer(timerInput)));
   };
+
+  const [sound, setSound] = useState();
+  const [beepInterval, setBeepInterval] = useState(null);
+
+  const playSound = async () => {
+    try {
+      console.log("Loading Sound");
+      const { sound } = await Audio.Sound.createAsync(
+        // eslint-disable-next-line no-undef
+        require("../../../assets/beep.wav")
+      );
+
+      setSound(sound);
+
+      await sound.playAsync();
+      await setTimeout(() => {}, 1000);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  React.useEffect(() => {
+    const unload = () => {
+      console.log("Unloading Sound");
+      sound.unloadAsync();
+    };
+    return () => {
+      sound ? unload() : undefined;
+    };
+  }, [sound]);
+
   return (
     <View style={styles.container}>
       {started ? (

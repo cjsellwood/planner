@@ -1,19 +1,19 @@
 import useAsyncStorage from "../../hooks/useAsyncStorage";
 
-const { get, store } = useAsyncStorage("stopwatch");
+const { get, store, clear } = useAsyncStorage("stopwatch");
 
-export const startTimer = (startTime) => {
+export const startStopwatch = (startTime) => {
   return async (dispatch) => {
     const stored = await get("stopwatch");
     await store({ ...stored, startTime, started: true });
     dispatch({
-      type: "START_TIMER",
+      type: "START_STOPWATCH",
       startTime,
     });
   };
 };
 
-export const pauseTimer = (pauseTime) => {
+export const pauseStopwatch = (pauseTime) => {
   return async (dispatch) => {
     const stored = await get("stopwatch");
     await store({
@@ -23,13 +23,13 @@ export const pauseTimer = (pauseTime) => {
       started: false,
     });
     dispatch({
-      type: "PAUSE_TIMER",
+      type: "PAUSE_STOPWATCH",
       pauseTime,
     });
   };
 };
 
-export const resetTimer = () => {
+export const resetStopwatch = () => {
   return async (dispatch) => {
     const stored = await get("stopwatch");
     await store({
@@ -40,26 +40,28 @@ export const resetTimer = () => {
       startTime: 0,
     });
     dispatch({
-      type: "RESET_TIMER",
+      type: "RESET_STOPWATCH",
     });
   };
 };
 
-export const changeTimer = (stopwatch) => {
+export const changeStopwatch = (stopwatch) => {
   return {
-    type: "CHANGE_TIMER",
+    type: "CHANGE_STOPWATCH",
     stopwatch,
   };
 };
 
-export const initTimer = () => {
+export const initStopwatch = () => {
   return async (dispatch) => {
-    const stored = await get("stopwatch");
+    const stored = await get();
+    console.log("stopwatch stored", stored);
     if (!stored) {
       return;
     }
+    // clear();
     dispatch({
-      type: "INIT_TIMER",
+      type: "INIT_STOPWATCH",
       stored,
     });
   };

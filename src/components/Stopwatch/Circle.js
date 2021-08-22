@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import useTimeDisplay from "../../hooks/useTimeDisplay";
 
 const Circle = ({ playPausePress }) => {
-  const stopwatch = useSelector((state) => state.stopwatch.stopwatch);
+  const { stopwatch } = useSelector((state) => state.stopwatch);
   const [hour, timeDisplay] = useTimeDisplay(stopwatch);
 
   return (

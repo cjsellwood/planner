@@ -1,3 +1,7 @@
+import useAsyncStorage from "../../hooks/useAsyncStorage";
+
+const { get, store, remove } = useAsyncStorage("timer");
+
 export const numberInput = (number) => {
   return {
     type: "NUMBER_INPUT",
@@ -17,24 +21,45 @@ export const clearTimerInput = () => {
   };
 };
 
-export const startTimer = (startTime, timer) => {
-  return {
-    type: "START_TIMER",
-    startTime,
-    timer,
+export const startTimer = (endTime, timer) => {
+  return async (dispatch) => {
+    const stored = await get("timer");
+    await store({
+      ...stored,
+      started: true,
+      paused: false,
+      endTime: endTime,
+      timer: timer,
+    });
+    dispatch({
+      type: "START_TIMER",
+      endTime,
+      timer,
+    });
   };
 };
 
 export const pauseTimer = (timer) => {
-  return {
-    type: "PAUSE_TIMER",
-    timer,
+  return async (dispatch) => {
+    const stored = await get("timer");
+    await store({
+      ...stored,
+      paused: true,
+      timer: timer,
+    });
+    dispatch({
+      type: "PAUSE_TIMER",
+      timer,
+    });
   };
 };
 
 export const deleteTimer = () => {
-  return {
-    type: "DELETE_TIMER",
+  return async (dispatch) => {
+    await remove();
+    dispatch({
+      type: "DELETE_TIMER",
+    });
   };
 };
 
@@ -55,5 +80,18 @@ export const stopTimer = (timer) => {
   return {
     type: "STOP_TIMER",
     timer,
+  };
+};
+
+export const initTimer = () => {
+  return async (dispatch) => {
+    const stored = await get();
+    if (!stored) {
+      return;
+    }
+    dispatch({
+      type: "INIT_TIMER",
+      stored,
+    });
   };
 };

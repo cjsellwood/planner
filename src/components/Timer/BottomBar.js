@@ -34,12 +34,14 @@ const BottomBar = ({ playPress, pausePress, deletePress, stopPress }) => {
           </Pressable>
         ) : null}
         {finished ? (
-          <Pressable
-            style={styles.playPauseIcon}
-            onPress={() => stopPress(timerInput)}
-          >
-            <StopIcon />
-          </Pressable>
+          <React.Fragment>
+            <Pressable
+              style={styles.playPauseIcon}
+              onPress={() => stopPress(timerInput)}
+            >
+              <StopIcon />
+            </Pressable>
+          </React.Fragment>
         ) : null}
       </View>
       <View style={styles.buttonContainer}>
@@ -53,7 +55,6 @@ export default BottomBar;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "orange",
     height: 70,
     flexDirection: "row",
     paddingHorizontal: 20,

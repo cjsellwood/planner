@@ -8,7 +8,7 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case "START_TIMER": {
+    case "START_STOPWATCH": {
       const newState = {
         ...state,
         startTime: action.startTime,
@@ -16,12 +16,12 @@ const reducer = (state = initialState, action) => {
       };
       return newState;
     }
-    case "CHANGE_TIMER":
+    case "CHANGE_STOPWATCH":
       return {
         ...state,
         stopwatch: action.stopwatch,
       };
-    case "RESET_TIMER": {
+    case "RESET_STOPWATCH": {
       const newState = {
         ...state,
         started: false,
@@ -31,7 +31,7 @@ const reducer = (state = initialState, action) => {
       };
       return newState;
     }
-    case "PAUSE_TIMER": {
+    case "PAUSE_STOPWATCH": {
       const newState = {
         ...state,
         stopwatch: action.pauseTime,
@@ -40,7 +40,7 @@ const reducer = (state = initialState, action) => {
       };
       return newState;
     }
-    case "INIT_TIMER": {
+    case "INIT_STOPWATCH": {
       let stopwatch = action.stored.stopwatch;
       if (action.stored.started) {
         stopwatch = Date.now() - action.stored.startTime + action.stored.offset;

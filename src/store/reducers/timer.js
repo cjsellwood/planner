@@ -2,7 +2,7 @@ const initialState = {
   timer: 0,
   timerInput: [0, 0, 0, 0, 0, 0],
   started: false,
-  startTime: 0,
+  endTime: 0,
   paused: true,
   finished: false,
 };
@@ -34,7 +34,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         started: true,
         paused: false,
-        startTime: action.startTime,
+        endTime: action.endTime,
         timer: action.timer,
       };
     case "PAUSE_TIMER":
@@ -49,7 +49,7 @@ const reducer = (state = initialState, action) => {
         timerInput: initialState.timerInput,
         started: false,
         paused: true,
-        startTime: 0,
+        endTime: 0,
         timer: 0,
         finished: false,
       };
@@ -70,6 +70,12 @@ const reducer = (state = initialState, action) => {
         timer: action.timer,
         finished: false,
         paused: true,
+      };
+    case "INIT_TIMER":
+      return {
+        ...state,
+        ...action.stored,
+        storageUsed: true,
       };
     default:
       return state;
