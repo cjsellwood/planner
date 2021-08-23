@@ -9,11 +9,13 @@ import { NativeRouter } from "react-router-native";
 import global from "./src/store/reducers/global";
 import stopwatch from "./src/store/reducers/stopwatch";
 import timer from "./src/store/reducers/timer";
+import notes from "./src/store/reducers/notes";
 
 const rootReducer = combineReducers({
   global: global,
   stopwatch: stopwatch,
   timer: timer,
+  notes: notes,
 });
 
 const store = createStore(

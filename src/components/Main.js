@@ -8,6 +8,7 @@ import Stopwatch from "./Stopwatch/Stopwatch";
 import Constants from "expo-constants";
 import Navbar from "./Navbar/Navbar";
 import theme from "../theme";
+import Note from "./Notes/Note/Note";
 
 const Main = () => {
   return (
@@ -16,8 +17,11 @@ const Main = () => {
         <Route exact path="/">
           <Redirect exact from="/" to="/notes" />
         </Route>
-        <Route path="/notes">
+        <Route exact path="/notes">
           <Notes />
+        </Route>
+        <Route path="/notes/:id">
+          <Note />
         </Route>
         <Route path="/reminders">
           <Reminders />
