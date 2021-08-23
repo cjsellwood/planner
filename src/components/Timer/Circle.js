@@ -3,7 +3,9 @@ import { StyleSheet, Text, View, Pressable } from "react-native";
 import { useSelector } from "react-redux";
 
 const Circle = () => {
-  const { timer } = useSelector((state) => state.timer);
+  const { timer } = useSelector((state) => {
+    return state.timer;
+  });
 
   let hour = Math.floor(timer / 1000 / 60 / 60);
   let minute = Math.floor(timer / 1000 / 60) % 60;
@@ -27,25 +29,20 @@ const Circle = () => {
   } else if (second !== 0 && minute === 0 && hour === 0) {
     // Don't show minute if 0 when hour is also 0
     minuteDisplay = "";
-  } else if (second === 0) {
+  } else if (second === 0 && minute > 0) {
     // If second is 0 add 1 to it
     minuteDisplay = (minute + 1).toString().padStart(2, "0") + ":";
+  } else if (second === 0) {
+    minuteDisplay = "";
   } else if (hour > 0) {
     // Add leading 0 if also hours shown
     minuteDisplay = minute.toString().padStart(2, "0") + ":";
   }
 
   // Add leading 0 if also minutes or hours shown
-  if (second === 0 || minute > 0 || hour > 0) {
+  if (minute > 0 || hour > 0) {
     secondDisplay = second.toString().padStart(2, "0");
   }
-
-  console.log(
-    hour,
-    minute,
-    second,
-    hourDisplay + minuteDisplay + secondDisplay
-  );
 
   return (
     <View style={styles.circleContainer}>

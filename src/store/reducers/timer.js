@@ -72,10 +72,17 @@ const reducer = (state = initialState, action) => {
         paused: true,
       };
     case "INIT_TIMER":
+      let timer = action.stored.timer;
+      if (!action.stored.paused && action.stored.endTime - Date.now() <= 0) {
+        timer = 0;
+      } else {
+        timer = action.stored.endTime - Date.now();
+      }
       return {
         ...state,
         ...action.stored,
         storageUsed: true,
+        timer,
       };
     default:
       return state;

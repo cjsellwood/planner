@@ -21,7 +21,7 @@ import { Audio } from "expo-av";
 const Timer = () => {
   const [intervalId, setIntervalId] = useState(null);
   const dispatch = useDispatch();
-  const { started, endTime, paused, timer, storageUsed, finished } =
+  const { started, endTime, paused, timer, storageUsed } =
     useSelector((state) => state.timer);
 
   // Set highlighted navbar tab
@@ -37,13 +37,24 @@ const Timer = () => {
   // Start interval if stored values should make the timer run
   useEffect(() => {
     if (started && !paused) {
-      console.log("starting timer");
+      // Set timer to 0 if already finished
+      if (endTime - Date.now() <= 0) {
+        dispatch(finishTimer());
+        return;
+      }
       const interval = setInterval(() => {
         // Stop interval if once 0 reached
         if (endTime - Date.now() <= 0) {
           clearInterval(interval);
           setIntervalId(null);
           dispatch(finishTimer());
+
+          clearInterval(beepInterval);
+          playSound();
+          const interval = setInterval(() => {
+            playSound();
+          }, 1000);
+          setBeepInterval(interval);
           return;
         }
         dispatch(changeTimer(endTime - Date.now()));
@@ -119,7 +130,6 @@ const Timer = () => {
 
   const playSound = async () => {
     try {
-      console.log("Loading Sound");
       const { sound } = await Audio.Sound.createAsync(
         // eslint-disable-next-line no-undef
         require("../../../assets/beep.wav")
@@ -134,15 +144,19 @@ const Timer = () => {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     const unload = () => {
-      console.log("Unloading Sound");
       sound.unloadAsync();
     };
     return () => {
       sound ? unload() : undefined;
     };
   }, [sound]);
+
+  // Clear sound interval
+  useEffect(() => {
+    return () => clearInterval(beepInterval);
+  }, [beepInterval]);
 
   return (
     <View style={styles.container}>

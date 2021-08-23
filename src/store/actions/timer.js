@@ -71,15 +71,32 @@ export const changeTimer = (timer) => {
 };
 
 export const finishTimer = () => {
-  return {
-    type: "FINISH_TIMER",
+  return async (dispatch) => {
+    const stored = await get();
+    await store({
+      ...stored,
+      timer: 0,
+      finished: true,
+    });
+    dispatch({
+      type: "FINISH_TIMER",
+    });
   };
 };
 
 export const stopTimer = (timer) => {
-  return {
-    type: "STOP_TIMER",
-    timer,
+  return async (dispatch) => {
+    const stored = await get();
+    await store({
+      ...stored,
+      timer: timer,
+      finished: false,
+      paused: true,
+    });
+    dispatch({
+      type: "STOP_TIMER",
+      timer,
+    });
   };
 };
 
