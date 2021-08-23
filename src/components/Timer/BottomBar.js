@@ -58,14 +58,12 @@ const styles = StyleSheet.create({
     height: 70,
     flexDirection: "row",
     paddingHorizontal: 20,
+    paddingBottom: 10,
   },
   buttonContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
-  button: {
-    backgroundColor: "red",
   },
   buttonText: {
     color: "white",

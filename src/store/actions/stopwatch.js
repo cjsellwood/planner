@@ -1,6 +1,6 @@
 import useAsyncStorage from "../../hooks/useAsyncStorage";
 
-const { get, store, clear } = useAsyncStorage("stopwatch");
+const { get, store } = useAsyncStorage("stopwatch");
 
 export const startStopwatch = (startTime) => {
   return async (dispatch) => {
@@ -55,7 +55,6 @@ export const changeStopwatch = (stopwatch) => {
 export const initStopwatch = () => {
   return async (dispatch) => {
     const stored = await get();
-    console.log("stopwatch stored", stored);
     if (!stored) {
       return;
     }

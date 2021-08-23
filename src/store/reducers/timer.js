@@ -75,7 +75,7 @@ const reducer = (state = initialState, action) => {
       let timer = action.stored.timer;
       if (!action.stored.paused && action.stored.endTime - Date.now() <= 0) {
         timer = 0;
-      } else {
+      } else if (!action.stored.paused) {
         timer = action.stored.endTime - Date.now();
       }
       return {

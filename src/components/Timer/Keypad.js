@@ -30,7 +30,6 @@ export default Keypad;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "purple",
     flex: 1,
     alignItems: "center",
   },
@@ -41,10 +40,9 @@ const styles = StyleSheet.create({
     width: 270,
   },
   keyButton: {
-    backgroundColor: "blue",
-    width: 70,
-    height: 70,
-    margin: 10,
+    width: 75,
+    height:75,
+    margin: 5,
     justifyContent: "center",
     alignItems: "center",
   },

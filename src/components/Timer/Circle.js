@@ -29,7 +29,9 @@ const Circle = () => {
   } else if (second !== 0 && minute === 0 && hour === 0) {
     // Don't show minute if 0 when hour is also 0
     minuteDisplay = "";
-  } else if (second === 0 && minute > 0) {
+  } else if (second === 0 && minute >= 0 && timer !== 0) {
+    minuteDisplay = (minute + 1).toString() + ":";
+  } else if (second === 0 && hour > 0 && timer !== 0) {
     // If second is 0 add 1 to it
     minuteDisplay = (minute + 1).toString().padStart(2, "0") + ":";
   } else if (second === 0) {
@@ -40,8 +42,12 @@ const Circle = () => {
   }
 
   // Add leading 0 if also minutes or hours shown
-  if (minute > 0 || hour > 0) {
+  if (timer < 10000) {
+    secondDisplay = second;
+  } else if (minute >= 0 && timer !== 0 || second === 0) {
     secondDisplay = second.toString().padStart(2, "0");
+  } else if (timer === 0) {
+    secondDisplay = "0";
   }
 
   return (

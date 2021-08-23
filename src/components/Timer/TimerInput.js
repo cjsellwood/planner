@@ -39,7 +39,6 @@ export default TimerInput;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "green",
     height: 180,
     alignItems: "center",
     justifyContent: "center",
