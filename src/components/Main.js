@@ -45,6 +45,6 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.mainBackground,
     position: "relative",
     flex: 1,
-    paddingTop: Constants.statusBarHeight,
+    // paddingTop: Constants.statusBarHeight,
   },
 });

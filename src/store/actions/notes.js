@@ -13,3 +13,11 @@ export const changeText = (noteIndex, text) => {
     text,
   };
 };
+
+export const setNoteColor = (noteIndex, colorIndex) => {
+  return {
+    type: "SET_NOTE_COLOR",
+    noteIndex,
+    colorIndex,
+  };
+};

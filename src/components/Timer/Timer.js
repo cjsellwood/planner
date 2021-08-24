@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View , StatusBar} from "react-native";
 import { setPage } from "../../store/actions/global";
 import { useDispatch, useSelector } from "react-redux";
 import TimerInput from "./TimerInput";
@@ -21,8 +21,9 @@ import { Audio } from "expo-av";
 const Timer = () => {
   const [intervalId, setIntervalId] = useState(null);
   const dispatch = useDispatch();
-  const { started, endTime, paused, timer, storageUsed } =
-    useSelector((state) => state.timer);
+  const { started, endTime, paused, timer, storageUsed } = useSelector(
+    (state) => state.timer
+  );
 
   // Set highlighted navbar tab
   useEffect(() => {
@@ -160,6 +161,13 @@ const Timer = () => {
 
   return (
     <View style={styles.container}>
+      <StatusBar
+        animated={false}
+        barStyle={"light-content"}
+        backgroundColor={theme.colors.mainBackground}
+        style={styles.statusBar}
+        hidden={false}
+      />
       {started ? (
         <Circle />
       ) : (

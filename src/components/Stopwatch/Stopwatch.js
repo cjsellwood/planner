@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, StatusBar } from "react-native";
 import BottomBar from "./BottomBar";
 import Circle from "./Circle";
 import theme from "../../theme";
@@ -48,7 +48,6 @@ const Stopwatch = () => {
     };
   }, [stopwatchInterval]);
 
-
   const playPausePress = () => {
     // If already started pause instead
     if (started) {
@@ -76,6 +75,13 @@ const Stopwatch = () => {
 
   return (
     <View style={styles.container}>
+      <StatusBar
+        animated={false}
+        barStyle={"light-content"}
+        backgroundColor={theme.colors.mainBackground}
+        style={styles.statusBar}
+        hidden={false}
+      />
       <Circle playPausePress={playPausePress} />
       <BottomBar resetPress={resetPress} playPausePress={playPausePress} />
     </View>
