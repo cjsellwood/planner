@@ -23,7 +23,7 @@ const Notes = () => {
       <Text style={styles.notesHeader}>Notes</Text>
       <FlatList
         keyExtractor={(item) => item.id.toString()}
-        data={notes}
+        data={notes.sort((a, b) => b.lastEdited - a.lastEdited)}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         renderItem={({ item }) => (
           <Link to={`/notes/${item.id}`}>

@@ -4,7 +4,7 @@ import { applyMiddleware, combineReducers, createStore } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import Main from "./src/components/Main";
-import { NativeRouter } from "react-router-native";
+import { BackButton, NativeRouter } from "react-router-native";
 
 import global from "./src/store/reducers/global";
 import stopwatch from "./src/store/reducers/stopwatch";
@@ -27,6 +27,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <NativeRouter>
+        <BackButton/>
         <Main />
       </NativeRouter>
     </Provider>
