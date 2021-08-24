@@ -5,3 +5,11 @@ export const changeTitle = (noteIndex, text) => {
     text,
   };
 };
+
+export const changeText = (noteIndex, text) => {
+  return {
+    type: "CHANGE_TEXT",
+    noteIndex,
+    text,
+  };
+};
