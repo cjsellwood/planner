@@ -12,31 +12,29 @@ import { Link, useHistory } from "react-router-native";
 import { setPage } from "../../store/actions/global";
 import theme from "../../theme";
 import PlusIcon from "./PlusIcon";
-import { v4 as uuid } from "uuid";
-import { createNote } from "../../store/actions/notes";
+import { createNote, initNotes } from "../../store/actions/notes";
 
 const Notes = () => {
   const dispatch = useDispatch();
-  const { notes } = useSelector((state) => state.notes);
 
   // Set highlighted navbar tab
   useEffect(() => {
     dispatch(setPage("Notes"));
   }, []);
 
+  const { notes } = useSelector((state) => state.notes);
+
+  // Load notes from async storage
+  useEffect(() => {
+    if (!notes) {
+      dispatch(initNotes());
+    }
+  }, []);
+
   const history = useHistory();
 
   const newNotePress = () => {
-    const id = uuid();
-    const newNote = {
-      id,
-      title: "",
-      text: "",
-      lastEdited: Date.now(),
-      color: 0,
-    };
-    dispatch(createNote(newNote));
-    history.push(`/notes/${id}`);
+    dispatch(createNote(history));
   };
 
   return (
@@ -54,7 +52,7 @@ const Notes = () => {
       <Text style={styles.notesHeader}>Notes</Text>
       <FlatList
         keyExtractor={(item) => item.id.toString()}
-        data={notes.sort((a, b) => b.lastEdited - a.lastEdited)}
+        data={!notes ? null : notes.sort((a, b) => b.lastEdited - a.lastEdited)}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         renderItem={({ item }) => (
           <Link to={`/notes/${item.id}`}>
@@ -119,6 +117,7 @@ const styles = StyleSheet.create({
     padding: 16,
     bottom: 15,
     zIndex: 10,
+    elevation: 2,
   },
   color0: {
     backgroundColor: theme.noteColors[0],

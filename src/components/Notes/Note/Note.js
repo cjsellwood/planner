@@ -38,8 +38,8 @@ const Note = () => {
 
   const dispatch = useDispatch();
 
-  const titleInput = (text) => {
-    dispatch(changeTitle(noteIndex, text));
+  const titleInput = (title) => {
+    dispatch(changeTitle(noteIndex, title));
   };
 
   const textInput = (text) => {

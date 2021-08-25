@@ -1,93 +1,4 @@
-import { v4 as uuid } from "uuid";
-
-const initialState = {
-  notes: [
-    {
-      id: uuid(),
-      title: "First",
-      text: "Starting note text with extra to write and show. Notes Starting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. NotesStarting note text with extra to write and show. Notes",
-      lastEdited: Date.now(),
-      color: 0,
-    },
-    {
-      id: uuid(),
-      title: "Default",
-      text: "Starting note text with extra to write and show. Notes",
-      lastEdited: Date.now(),
-      color: 0,
-    },
-    {
-      id: uuid(),
-      title: "Default",
-      text: "Starting note text with extra to write and show. Notes",
-      lastEdited: Date.now(),
-      color: 0,
-    },
-    {
-      id: uuid(),
-      title: "Default",
-      text: "Starting note text with extra to write and show. Notes",
-      lastEdited: Date.now(),
-      color: 0,
-    },
-    {
-      id: uuid(),
-      title: "Default",
-      text: "Starting note text with extra to write and show. Notes",
-      lastEdited: Date.now(),
-      color: 0,
-    },
-    {
-      id: uuid(),
-      title: "Default",
-      text: "Starting note text with extra to write and show. Notes",
-      lastEdited: Date.now(),
-      color: 0,
-    },
-    {
-      id: uuid(),
-      title: "Default",
-      text: "Starting note text with extra to write and show. Notes",
-      lastEdited: Date.now(),
-      color: 0,
-    },
-    {
-      id: uuid(),
-      title: "Default",
-      text: "Starting note text with extra to write and show. Notes",
-      lastEdited: Date.now(),
-      color: 0,
-    },
-    {
-      id: uuid(),
-      title: "Default",
-      text: "Starting note text with extra to write and show. Notes",
-      lastEdited: Date.now(),
-      color: 0,
-    },
-    {
-      id: uuid(),
-      title: "Default",
-      text: "Starting note text with extra to write and show. Notes",
-      lastEdited: Date.now(),
-      color: 0,
-    },
-    {
-      id: uuid(),
-      title: "Default",
-      text: "Starting note text with extra to write and show. Notes",
-      lastEdited: Date.now(),
-      color: 0,
-    },
-    {
-      id: uuid(),
-      title: "Last",
-      text: "Starting note text with extra to write and show. Notes",
-      lastEdited: Date.now(),
-      color: 0,
-    },
-  ],
-};
+const initialState = {};
 
 const duplicateNotes = (notes) => {
   const notesCopy = [];
@@ -101,7 +12,7 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case "CHANGE_TITLE": {
       const notesCopy = duplicateNotes(state.notes);
-      notesCopy[action.noteIndex].title = action.text;
+      notesCopy[action.noteIndex].title = action.title;
       notesCopy[action.noteIndex].lastEdited = Date.now();
       return { ...state, notes: notesCopy };
     }
@@ -135,6 +46,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         notes: [...notesCopy, action.newNote],
+      };
+    }
+    case "INIT_NOTES": {
+      return {
+        ...state,
+        notes: action.notes,
       };
     }
 
