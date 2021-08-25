@@ -29,7 +29,7 @@ export const changeText = (noteIndex, text) => {
       const stored = await get();
       stored[noteIndex].text = text;
       await store(stored);
-    }, 500); 
+    }, 500);
 
     dispatch({
       type: "CHANGE_TEXT",
@@ -44,6 +44,7 @@ export const setNoteColor = (noteIndex, colorIndex) => {
     const stored = await get();
     stored[noteIndex].color = colorIndex;
     await store(stored);
+
 
     dispatch({
       type: "SET_NOTE_COLOR",

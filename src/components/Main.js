@@ -5,7 +5,6 @@ import Notes from "./Notes/Notes";
 import Reminders from "./Reminders/Reminders";
 import Timer from "./Timer/Timer";
 import Stopwatch from "./Stopwatch/Stopwatch";
-import Constants from "expo-constants";
 import Navbar from "./Navbar/Navbar";
 import theme from "../theme";
 import Note from "./Notes/Note/Note";
@@ -45,6 +44,5 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.mainBackground,
     position: "relative",
     flex: 1,
-    // paddingTop: Constants.statusBarHeight,
   },
 });

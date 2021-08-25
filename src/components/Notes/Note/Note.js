@@ -32,7 +32,9 @@ const Note = () => {
   // Get index of note in notes array for updating text
   useEffect(() => {
     setNoteIndex(
-      notes.findIndex((note) => note.id.toString() === id.toString())
+      notes.findIndex((note) => {
+        return note.id.toString() === id.toString();
+      })
     );
   }, [id]);
 

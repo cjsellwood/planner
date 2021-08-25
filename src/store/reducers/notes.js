@@ -1,12 +1,5 @@
-const initialState = {};
-
-const duplicateNotes = (notes) => {
-  const notesCopy = [];
-  for (let note of notes) {
-    notesCopy.push({ ...note });
-  }
-  return notesCopy;
-};
+import duplicateNotes from "../../functions/duplicateNotes";
+const initialState = { notes: [], storageUsed: false };
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -52,6 +45,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         notes: action.notes,
+        storageUsed: true,
       };
     }
 
