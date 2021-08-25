@@ -31,6 +31,7 @@ const BottomBar = ({ note, noteIndex }) => {
         transparent={true}
         visible={showColorChoice}
         onRequestClose={() => setShowColorChoice(false)}
+        statusBarTranslucent={true}
       >
         <Pressable
           onPress={() => {
@@ -86,7 +87,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     backgroundColor: "rgba(1, 1, 1, 0.7)",
-    zIndex: 4,
   },
   colorContainer: {
     backgroundColor: theme.colors.mainBackground,

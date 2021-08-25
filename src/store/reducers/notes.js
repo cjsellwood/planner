@@ -122,6 +122,14 @@ export default (state = initialState, action) => {
         notes: notesCopy,
       };
     }
+    case "DELETE_NOTE": {
+      const notesCopy = duplicateNotes(state.notes);
+      notesCopy.splice(action.noteIndex, 1);
+      return {
+        ...state,
+        notes: notesCopy,
+      };
+    }
 
     default:
       return state;

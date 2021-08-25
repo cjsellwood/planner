@@ -7,13 +7,11 @@ import {
   StatusBar,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-native";
+import { useHistory, useParams } from "react-router-native";
 import theme from "../../../theme";
 import { changeTitle, changeText } from "../../../store/actions/notes";
-import BackIcon from "./icons/BackIcon";
-import { Link } from "react-router-native";
-
 import BottomBar from "./BottomBar";
+import TopBar from "./TopBar";
 
 const Note = () => {
   const { id } = useParams();
@@ -24,6 +22,14 @@ const Note = () => {
 
   const note = notes.find((note) => note.id.toString() === id.toString());
 
+  // If accessing deleted note with back button
+  if (!note) {
+    const history = useHistory();
+    history.push("/notes");
+    return null;
+  }
+
+  // Get index of note in notes array for updating text
   useEffect(() => {
     setNoteIndex(
       notes.findIndex((note) => note.id.toString() === id.toString())
@@ -52,11 +58,7 @@ const Note = () => {
         style={styles.statusBar}
         hidden={false}
       />
-      <View style={styles.topBar}>
-        <Link style={styles.backLink} to="/notes">
-          <BackIcon />
-        </Link>
-      </View>
+      <TopBar noteIndex={noteIndex} />
       <ScrollView style={[styles.noteContainer, styles["color" + note.color]]}>
         <TextInput
           style={styles.noteTitle}
@@ -85,18 +87,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginBottom: theme.navBarHeight,
   },
-  topBar: {
-    height: 50,
-    justifyContent: "center",
-  },
-  backLink: {
-    padding: 8,
-    marginLeft: 8,
-    width: 48,
-    height: 48,
-    justifyContent: "center",
-    alignItems: "center",
-  },
+
   noteContainer: {
     flex: 1,
     padding: 16,

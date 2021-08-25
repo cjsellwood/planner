@@ -21,3 +21,10 @@ export const setNoteColor = (noteIndex, colorIndex) => {
     colorIndex,
   };
 };
+
+export const deleteNote = (noteIndex) => {
+  return {
+    type: "DELETE_NOTE",
+    noteIndex,
+  };
+};
