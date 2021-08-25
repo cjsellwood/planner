@@ -28,3 +28,10 @@ export const deleteNote = (noteIndex) => {
     noteIndex,
   };
 };
+
+export const createNote = (newNote) => {
+  return {
+    type: "CREATE_NOTE",
+    newNote,
+  };
+};

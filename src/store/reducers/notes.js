@@ -130,6 +130,13 @@ export default (state = initialState, action) => {
         notes: notesCopy,
       };
     }
+    case "CREATE_NOTE": {
+      const notesCopy = duplicateNotes(state.notes);
+      return {
+        ...state,
+        notes: [...notesCopy, action.newNote],
+      };
+    }
 
     default:
       return state;

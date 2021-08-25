@@ -66,12 +66,14 @@ const Note = () => {
           onChangeText={titleInput}
           placeholder="Title"
           placeholderTextColor={"gray"}
+          multiline={true}
         />
         <TextInput
           style={styles.noteText}
           value={note.text}
           onChangeText={textInput}
           placeholder="Note"
+          placeholderTextColor={"gray"}
           multiline={true}
         />
       </ScrollView>

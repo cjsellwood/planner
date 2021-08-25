@@ -8,10 +8,12 @@ import {
   StatusBar,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-native";
+import { Link, useHistory } from "react-router-native";
 import { setPage } from "../../store/actions/global";
 import theme from "../../theme";
 import PlusIcon from "./PlusIcon";
+import { v4 as uuid } from "uuid";
+import { createNote } from "../../store/actions/notes";
 
 const Notes = () => {
   const dispatch = useDispatch();
@@ -22,6 +24,21 @@ const Notes = () => {
     dispatch(setPage("Notes"));
   }, []);
 
+  const history = useHistory();
+
+  const newNotePress = () => {
+    const id = uuid();
+    const newNote = {
+      id,
+      title: "",
+      text: "",
+      lastEdited: Date.now(),
+      color: 0,
+    };
+    dispatch(createNote(newNote));
+    history.push(`/notes/${id}`);
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar
@@ -31,7 +48,7 @@ const Notes = () => {
         style={styles.statusBar}
         hidden={false}
       />
-      <Pressable style={styles.newNoteButton}>
+      <Pressable onPress={newNotePress} style={styles.newNoteButton}>
         <PlusIcon />
       </Pressable>
       <Text style={styles.notesHeader}>Notes</Text>
@@ -42,8 +59,12 @@ const Notes = () => {
         renderItem={({ item }) => (
           <Link to={`/notes/${item.id}`}>
             <View style={[styles.note, styles["color" + item.color]]}>
-              <Text style={styles.noteTitle}>{item.title}</Text>
-              <Text style={styles.noteText}>{item.text}</Text>
+              {item.title ? (
+                <Text style={styles.noteTitle}>{item.title}</Text>
+              ) : null}
+              {item.text ? (
+                <Text style={styles.noteText}>{item.text}</Text>
+              ) : null}
             </View>
           </Link>
         )}
@@ -73,10 +94,8 @@ const styles = StyleSheet.create({
   note: {
     marginHorizontal: 8,
     padding: 10,
-    borderWidth: 1,
-    borderColor: "white",
     borderRadius: 4,
-    backgroundColor: "darkslateblue",
+    elevation: 4,
   },
   separator: {
     padding: 6,
