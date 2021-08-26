@@ -12,6 +12,7 @@ import theme from "../../../theme";
 import { changeTitle, changeText } from "../../../store/actions/notes";
 import BottomBar from "./BottomBar";
 import TopBar from "./TopBar";
+import SquareIcon from "./icons/SquareIcon";
 
 const Note = () => {
   const { id } = useParams();
@@ -48,8 +49,21 @@ const Note = () => {
     dispatch(changeText(noteIndex, text));
   };
 
+  const textLineInput = (e, line) => {
+    console.log(e, e.nativeEvent.text, line);
+    const splitText = note.text.match(/^$|[^.\n]+/g);
+    splitText[line] = e.nativeEvent.text;
+    dispatch(changeText(noteIndex, splitText.join("\n")));
+  };
+
+  const submitPress = (index) => {
+    console.log(index);
+  };
+
   // Split text by line - for use if adding checkboxes
   // console.log(note.text.match(/[^.\n]+/g));
+
+  console.log(note.text.match(/^$|[^.\n]+/g));
 
   return (
     <View style={[styles.container, styles["color" + note.color]]}>
@@ -70,14 +84,33 @@ const Note = () => {
           placeholderTextColor={"gray"}
           multiline={true}
         />
-        <TextInput
-          style={styles.noteText}
-          value={note.text}
-          onChangeText={textInput}
-          placeholder="Note"
-          placeholderTextColor={"gray"}
-          multiline={true}
-        />
+        {!note.checkboxes ? (
+          <TextInput
+            style={styles.noteText}
+            value={note.text}
+            onChangeText={textInput}
+            placeholder="Note"
+            placeholderTextColor={"gray"}
+            multiline={true}
+          />
+        ) : (
+          <View>
+            {note.text.match(/^$|[^.\n]+/g).map((line, index) => {
+              return (
+                <View key={"line" + index} style={styles.checkBoxContainer}>
+                  <SquareIcon />
+                  <TextInput
+                    style={styles.checkText}
+                    value={line}
+                    onChange={(e) => textLineInput(e, index)}
+                    multiline={true}
+                    onSubmitEditing={(index) => submitPress(index)}
+                  />
+                </View>
+              );
+            })}
+          </View>
+        )}
       </ScrollView>
       <BottomBar note={note} noteIndex={noteIndex} />
     </View>
@@ -105,6 +138,16 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     paddingBottom: 16,
+  },
+  checkBoxContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  checkText: {
+    color: "white",
+    fontSize: 16,
+    marginLeft: 6,
+    flex: 1,
   },
   color0: {
     backgroundColor: theme.noteColors[0],

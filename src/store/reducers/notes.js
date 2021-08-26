@@ -48,6 +48,20 @@ export default (state = initialState, action) => {
         storageUsed: true,
       };
     }
+    case "CHANGE_TYPE": {
+      const notesCopy = duplicateNotes(state.notes);
+      if (action.hasCheckboxes) {
+        notesCopy[action.noteIndex].checkboxes = null;
+      } else {
+        notesCopy[action.noteIndex].checkboxes = new Array(action.lines).fill(
+          false
+        );
+      }
+      return {
+        ...state,
+        notes: notesCopy,
+      };
+    }
 
     default:
       return state;

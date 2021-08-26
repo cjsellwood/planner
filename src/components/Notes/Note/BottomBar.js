@@ -4,7 +4,9 @@ import { useDispatch } from "react-redux";
 import theme from "../../../theme";
 import displayEditDate from "./displayEditDate";
 import ColorIcon from "./icons/ColorIcon";
-import { setNoteColor } from "../../../store/actions/notes";
+import { setNoteColor, changeType } from "../../../store/actions/notes";
+import CheckboxIcon from "./icons/CheckboxIcon";
+import NotesIcon from "./icons/NotesIcon";
 
 const BottomBar = ({ note, noteIndex }) => {
   const [showColorChoice, setShowColorChoice] = useState(false);
@@ -14,7 +16,7 @@ const BottomBar = ({ note, noteIndex }) => {
     <View style={styles.bottomBar}>
       <View style={styles.sideContainer}>
         <Pressable
-          style={styles.colorButton}
+          style={styles.sideButton}
           onPress={() => setShowColorChoice(true)}
         >
           <ColorIcon />
@@ -25,7 +27,16 @@ const BottomBar = ({ note, noteIndex }) => {
           Edited {displayEditDate(note.lastEdited)}
         </Text>
       </View>
-      <View style={styles.sideContainer}></View>
+      <View style={styles.sideContainer}>
+        <Pressable
+          style={styles.sideButton}
+          onPress={() =>
+            dispatch(changeType(noteIndex, note.checkboxes !== null))
+          }
+        >
+          {note.checkboxes ? <NotesIcon /> : <CheckboxIcon />}
+        </Pressable>
+      </View>
       <Modal
         animationType="fade"
         transparent={true}
@@ -76,7 +87,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
   },
-  colorButton: {
+  sideButton: {
     width: 50,
     height: 50,
     justifyContent: "center",

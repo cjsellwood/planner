@@ -45,7 +45,6 @@ export const setNoteColor = (noteIndex, colorIndex) => {
     stored[noteIndex].color = colorIndex;
     await store(stored);
 
-
     dispatch({
       type: "SET_NOTE_COLOR",
       noteIndex,
@@ -74,6 +73,7 @@ export const createNote = (history) => {
       text: "",
       lastEdited: Date.now(),
       color: 0,
+      checkboxes: null,
     };
 
     // Store new note in async storage
@@ -99,6 +99,28 @@ export const initNotes = () => {
     dispatch({
       type: "INIT_NOTES",
       notes,
+    });
+  };
+};
+
+export const changeType = (noteIndex, hasCheckboxes) => {
+  return async (dispatch) => {
+    const stored = await get();
+    let lines;
+    if (hasCheckboxes) {
+      stored[noteIndex].checkboxes = null;
+    } else {
+      console.log(stored[noteIndex].text);
+      console.log("action", stored[noteIndex].text.match(/^$|[^.\n]+/g));
+      lines = stored[noteIndex].text.match(/^$|[^.\n]+/g).length;
+      stored[noteIndex].checkboxes = new Array(lines).fill(false);
+    }
+    await store(stored);
+    dispatch({
+      type: "CHANGE_TYPE",
+      noteIndex,
+      lines,
+      hasCheckboxes,
     });
   };
 };
