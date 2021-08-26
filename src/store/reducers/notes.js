@@ -50,13 +50,47 @@ export default (state = initialState, action) => {
     }
     case "CHANGE_TYPE": {
       const notesCopy = duplicateNotes(state.notes);
+      // Convert to text
       if (action.hasCheckboxes) {
+        const newText = notesCopy[action.noteIndex].checkboxes.map(
+          (line) => line.text
+        );
+        notesCopy[action.noteIndex].text = newText.join("\n");
         notesCopy[action.noteIndex].checkboxes = null;
       } else {
-        notesCopy[action.noteIndex].checkboxes = new Array(action.lines).fill(
-          false
-        );
+        // Convert to checkboxes
+        const splitText =
+          notesCopy[action.noteIndex].text.match(/^$|[^\r\n]+/g);
+        notesCopy[action.noteIndex].checkboxes = splitText.map((line) => {
+          return { checked: false, text: line };
+        });
+        notesCopy[action.noteIndex].text = null;
       }
+      return {
+        ...state,
+        notes: notesCopy,
+      };
+    }
+    case "CHANGE_CHECKBOX_TEXT": {
+      const notesCopy = duplicateNotes(state.notes);
+      notesCopy[action.noteIndex].checkboxes[action.line].text = action.text;
+      return {
+        ...state,
+        notes: notesCopy,
+      };
+    }
+    case "DELETE_CHECKBOX": {
+      const notesCopy = duplicateNotes(state.notes);
+      notesCopy[action.noteIndex].checkboxes.splice(action.line, 1);
+      return {
+        ...state,
+        notes: notesCopy,
+      };
+    }
+    case "TOGGLE_CHECKBOX": {
+      const notesCopy = duplicateNotes(state.notes);
+      notesCopy[action.noteIndex].checkboxes[action.line].checked =
+        !notesCopy[action.noteIndex].checkboxes[action.line].checked;
       return {
         ...state,
         notes: notesCopy,

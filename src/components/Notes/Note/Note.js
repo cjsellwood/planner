@@ -5,14 +5,23 @@ import {
   View,
   TextInput,
   StatusBar,
+  Text,
+  Pressable,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-native";
 import theme from "../../../theme";
-import { changeTitle, changeText } from "../../../store/actions/notes";
+import {
+  changeTitle,
+  changeText,
+  changeCheckboxText,
+  deleteCheckbox,
+  toggleCheckbox,
+} from "../../../store/actions/notes";
 import BottomBar from "./BottomBar";
 import TopBar from "./TopBar";
 import SquareIcon from "./icons/SquareIcon";
+import CheckedFill from "./icons/CheckedFill";
 
 const Note = () => {
   const { id } = useParams();
@@ -50,20 +59,10 @@ const Note = () => {
   };
 
   const textLineInput = (e, line) => {
-    console.log(e, e.nativeEvent.text, line);
-    const splitText = note.text.match(/^$|[^.\n]+/g);
-    splitText[line] = e.nativeEvent.text;
-    dispatch(changeText(noteIndex, splitText.join("\n")));
+    dispatch(changeCheckboxText(noteIndex, e.nativeEvent.text, line));
   };
 
-  const submitPress = (index) => {
-    console.log(index);
-  };
-
-  // Split text by line - for use if adding checkboxes
-  // console.log(note.text.match(/[^.\n]+/g));
-
-  console.log(note.text.match(/^$|[^.\n]+/g));
+  const [deleteButton, setDeleteButton] = useState(null);
 
   return (
     <View style={[styles.container, styles["color" + note.color]]}>
@@ -75,7 +74,10 @@ const Note = () => {
         hidden={false}
       />
       <TopBar noteIndex={noteIndex} />
-      <ScrollView style={[styles.noteContainer, styles["color" + note.color]]}>
+      <ScrollView
+        style={[styles.noteContainer, styles["color" + note.color]]}
+        keyboardShouldPersistTaps="handled"
+      >
         <TextInput
           style={styles.noteTitle}
           value={note.title}
@@ -95,17 +97,31 @@ const Note = () => {
           />
         ) : (
           <View>
-            {note.text.match(/^$|[^.\n]+/g).map((line, index) => {
+            {note.checkboxes.map((line, index) => {
               return (
                 <View key={"line" + index} style={styles.checkBoxContainer}>
-                  <SquareIcon />
+                  <Pressable
+                    style={styles.checkIconContainer}
+                    onPress={() => dispatch(toggleCheckbox(noteIndex, index))}
+                  >
+                    {line.checked ? <CheckedFill /> : <SquareIcon />}
+                  </Pressable>
                   <TextInput
                     style={styles.checkText}
-                    value={line}
+                    value={line.text}
                     onChange={(e) => textLineInput(e, index)}
                     multiline={true}
-                    onSubmitEditing={(index) => submitPress(index)}
+                    onFocus={() => setDeleteButton(index)}
+                    onBlur={() => setDeleteButton(null)}
                   />
+                  {deleteButton === index ? (
+                    <Pressable
+                      style={styles.deleteLineButton}
+                      onPress={() => dispatch(deleteCheckbox(noteIndex, index))}
+                    >
+                      <Text style={styles.deleteLineText}>x</Text>
+                    </Pressable>
+                  ) : null}
                 </View>
               );
             })}
@@ -138,6 +154,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     paddingBottom: 16,
+    lineHeight: 22,
   },
   checkBoxContainer: {
     flexDirection: "row",
@@ -148,6 +165,24 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginLeft: 6,
     flex: 1,
+    lineHeight: 22,
+  },
+  deleteLineButton: {
+    height: 25,
+    width: 25,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  deleteLineText: {
+    color: "white",
+    fontSize: 24,
+    lineHeight: 25,
+  },
+  checkIconContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: 20,
+    height: 20,
   },
   color0: {
     backgroundColor: theme.noteColors[0],

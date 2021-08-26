@@ -6,62 +6,63 @@ const { get, store } = useAsyncStorage("notes");
 let titleTimeout;
 export const changeTitle = (noteIndex, title) => {
   return async (dispatch) => {
+    dispatch({
+      type: "CHANGE_TITLE",
+      noteIndex,
+      title,
+    });
+
     clearTimeout(titleTimeout);
     titleTimeout = setTimeout(async () => {
       const stored = await get();
       stored[noteIndex].title = title;
       await store(stored);
     }, 500);
-
-    dispatch({
-      type: "CHANGE_TITLE",
-      noteIndex,
-      title,
-    });
   };
 };
 
 let textTimeout;
 export const changeText = (noteIndex, text) => {
   return async (dispatch) => {
+    dispatch({
+      type: "CHANGE_TEXT",
+      noteIndex,
+      text,
+    });
+
     clearTimeout(textTimeout);
     textTimeout = setTimeout(async () => {
       const stored = await get();
       stored[noteIndex].text = text;
       await store(stored);
     }, 500);
-
-    dispatch({
-      type: "CHANGE_TEXT",
-      noteIndex,
-      text,
-    });
   };
 };
 
 export const setNoteColor = (noteIndex, colorIndex) => {
   return async (dispatch) => {
-    const stored = await get();
-    stored[noteIndex].color = colorIndex;
-    await store(stored);
-
     dispatch({
       type: "SET_NOTE_COLOR",
       noteIndex,
       colorIndex,
     });
+
+    const stored = await get();
+    stored[noteIndex].color = colorIndex;
+    await store(stored);
   };
 };
 
 export const deleteNote = (noteIndex) => {
   return async (dispatch) => {
-    const stored = await get();
-    stored.splice(noteIndex, 1);
-    await store(stored);
     dispatch({
       type: "DELETE_NOTE",
       noteIndex,
     });
+
+    const stored = await get();
+    stored.splice(noteIndex, 1);
+    await store(stored);
   };
 };
 
@@ -76,6 +77,13 @@ export const createNote = (history) => {
       checkboxes: null,
     };
 
+    await dispatch({
+      type: "CREATE_NOTE",
+      newNote,
+    });
+
+    history.push(`/notes/${newNote.id}`);
+
     // Store new note in async storage
     const stored = await get();
     if (stored) {
@@ -83,13 +91,6 @@ export const createNote = (history) => {
     } else {
       await store([newNote]);
     }
-
-    await dispatch({
-      type: "CREATE_NOTE",
-      newNote,
-    });
-
-    history.push(`/notes/${newNote.id}`);
   };
 };
 
@@ -105,22 +106,84 @@ export const initNotes = () => {
 
 export const changeType = (noteIndex, hasCheckboxes) => {
   return async (dispatch) => {
-    const stored = await get();
-    let lines;
-    if (hasCheckboxes) {
-      stored[noteIndex].checkboxes = null;
-    } else {
-      console.log(stored[noteIndex].text);
-      console.log("action", stored[noteIndex].text.match(/^$|[^.\n]+/g));
-      lines = stored[noteIndex].text.match(/^$|[^.\n]+/g).length;
-      stored[noteIndex].checkboxes = new Array(lines).fill(false);
-    }
-    await store(stored);
     dispatch({
       type: "CHANGE_TYPE",
       noteIndex,
-      lines,
       hasCheckboxes,
+    });
+
+    const stored = await get();
+    // Convert to text
+    if (hasCheckboxes) {
+      const newText = stored[noteIndex].checkboxes.map((line) => line.text);
+      stored[noteIndex].text = newText.join("\n");
+      stored[noteIndex].checkboxes = null;
+    } else {
+      // Convert to checkboxes
+      const splitText = stored[noteIndex].text.match(/^$|[^\r\n]+/g);
+      stored[noteIndex].checkboxes = splitText.map((line) => {
+        return { checked: false, text: line };
+      });
+      stored[noteIndex].text = null;
+    }
+    await store(stored);
+  };
+};
+
+let checkboxTimeout;
+export const changeCheckboxText = (noteIndex, text, line) => {
+  return async (dispatch) => {
+    dispatch({
+      type: "CHANGE_CHECKBOX_TEXT",
+      noteIndex,
+      text,
+      line,
+    });
+
+    clearInterval(checkboxTimeout);
+    checkboxTimeout = setTimeout(async () => {
+      const stored = await get();
+      stored[noteIndex].checkboxes[line].text = text;
+      await store(stored);
+    }, 500);
+  };
+};
+
+export const deleteCheckbox = (noteIndex, line) => {
+  return async (dispatch) => {
+    dispatch({
+      type: "DELETE_CHECKBOX",
+      noteIndex,
+      line,
+    });
+
+    const stored = await get();
+    stored[noteIndex].checkboxes.splice(line, 1);
+    await store(stored);
+  };
+};
+
+export const toggleCheckbox = (noteIndex, line) => {
+  return async (dispatch) => {
+    dispatch({
+      type: "TOGGLE_CHECKBOX",
+      noteIndex,
+      line,
+    });
+
+    const stored = await get();
+    stored[noteIndex].checkboxes[line].checked =
+      !stored[noteIndex].checkboxes[line].checked;
+    await store(stored);
+  };
+};
+
+export const addNewCheckbox = (noteIndex, line) => {
+  return async (dispatch) => {
+    dispatch({
+      type: "ADD_NEW_CHECKBOX",
+      noteIndex,
+      line,
     });
   };
 };

@@ -14,13 +14,14 @@ import theme from "../../theme";
 import PlusIcon from "./PlusIcon";
 import { createNote, initNotes } from "../../store/actions/notes";
 import duplicateNotes from "../../functions/duplicateNotes";
+import SquareIcon from "./Note/icons/SquareIcon";
 
 const Notes = () => {
   const dispatch = useDispatch();
 
   // Set highlighted navbar tab
   useEffect(() => {
-    dispatch(setPage("Notes"));
+    // dispatch(setPage("Notes"));
   }, []);
 
   const { notes, storageUsed } = useSelector((state) => state.notes);
@@ -67,6 +68,20 @@ const Notes = () => {
               ) : null}
               {item.text ? (
                 <Text style={styles.noteText}>{item.text}</Text>
+              ) : item.checkboxes ? (
+                item.checkboxes.map((line, index) => {
+                  if (!line.checked) {
+                    return (
+                      <View
+                        key={"check" + index}
+                        style={styles.checkboxContainer}
+                      >
+                        <SquareIcon />
+                        <Text style={styles.checkBoxText}>{line.text}</Text>
+                      </View>
+                    );
+                  }
+                })
               ) : null}
             </View>
           </Link>
@@ -109,6 +124,8 @@ const styles = StyleSheet.create({
   },
   noteText: {
     color: "white",
+    lineHeight: 20,
+    paddingTop: 4,
   },
   newNoteButton: {
     backgroundColor: theme.colors.primary,
@@ -123,6 +140,16 @@ const styles = StyleSheet.create({
     bottom: 15,
     zIndex: 10,
     elevation: 2,
+  },
+  checkboxContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 2,
+  },
+  checkBoxText: {
+    marginLeft: 6,
+    color: "white",
+    lineHeight: 20,
   },
   color0: {
     backgroundColor: theme.noteColors[0],

@@ -30,9 +30,7 @@ const BottomBar = ({ note, noteIndex }) => {
       <View style={styles.sideContainer}>
         <Pressable
           style={styles.sideButton}
-          onPress={() =>
-            dispatch(changeType(noteIndex, note.checkboxes !== null))
-          }
+          onPress={() => dispatch(changeType(noteIndex, note.text === null))}
         >
           {note.checkboxes ? <NotesIcon /> : <CheckboxIcon />}
         </Pressable>
