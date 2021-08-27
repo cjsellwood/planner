@@ -9,7 +9,15 @@ const Circle = ({ playPausePress }) => {
 
   return (
     <View style={styles.circleContainer}>
-      <Pressable onPress={() => playPausePress()} style={styles.circle}>
+      <Pressable
+        onPress={() => playPausePress()}
+        style={styles.circle}
+        android_ripple={{
+          color: "rgba(255, 255, 255, 0.2)",
+          borderless: false,
+          radius: 125,
+        }}
+      >
         <View style={styles.timeContainer}>
           <Text style={[styles.text, hour > 10 ? styles.smallText : null]}>
             {timeDisplay}

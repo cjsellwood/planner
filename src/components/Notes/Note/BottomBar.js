@@ -18,6 +18,11 @@ const BottomBar = ({ note, noteIndex }) => {
         <Pressable
           style={styles.sideButton}
           onPress={() => setShowColorChoice(true)}
+          android_ripple={{
+            color: "rgba(255, 255, 255, 0.2)",
+            borderless: false,
+            radius: 25,
+          }}
         >
           <ColorIcon />
         </Pressable>
@@ -31,6 +36,11 @@ const BottomBar = ({ note, noteIndex }) => {
         <Pressable
           style={styles.sideButton}
           onPress={() => dispatch(changeType(noteIndex, note.text === null))}
+          android_ripple={{
+            color: "rgba(255, 255, 255, 0.2)",
+            borderless: false,
+            radius: 25,
+          }}
         >
           {note.checkboxes ? <NotesIcon /> : <CheckboxIcon />}
         </Pressable>

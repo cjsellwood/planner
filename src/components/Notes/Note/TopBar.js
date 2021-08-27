@@ -1,5 +1,11 @@
 import React from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import {
+  Pressable,
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  TouchableHighlight,
+} from "react-native";
 import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-native";
 import BackIcon from "./icons/BackIcon";
@@ -17,11 +23,28 @@ const TopBar = ({ noteIndex }) => {
   };
   return (
     <View style={styles.topBar}>
-      <Link style={styles.backLink} to="/notes">
+      <Link
+        style={styles.backLink}
+        to="/notes"
+        component={Pressable}
+        android_ripple={{
+          color: "rgba(255, 255, 255, 0.2)",
+          borderless: true,
+          radius: 25,
+        }}
+      >
         <BackIcon />
       </Link>
       <View style={styles.centerContainer}></View>
-      <Pressable onPress={deletePress} style={styles.deleteContainer}>
+      <Pressable
+        onPress={deletePress}
+        style={styles.deleteContainer}
+        android_ripple={{
+          color: "rgba(255, 255, 255, 0.2)",
+          borderless: false,
+          radius: 25,
+        }}
+      >
         <DeleteIcon />
       </Pressable>
     </View>

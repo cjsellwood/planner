@@ -16,6 +16,11 @@ const Keypad = () => {
               key={key}
               style={styles.keyButton}
               onPress={() => dispatch(numberInput(key))}
+              android_ripple={{
+                color: "rgba(255, 255, 255, 0.2)",
+                borderless: true,
+                radius: 35,
+              }}
             >
               <Text style={styles.keyText}>{key}</Text>
             </Pressable>
@@ -41,7 +46,7 @@ const styles = StyleSheet.create({
   },
   keyButton: {
     width: 75,
-    height:75,
+    height: 75,
     margin: 5,
     justifyContent: "center",
     alignItems: "center",

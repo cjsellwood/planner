@@ -5,7 +5,7 @@ import BackspaceIcon from "./icons/BackspaceIcon";
 import { backspaceInput, clearTimerInput } from "../../store/actions/timer";
 
 const TimerInput = () => {
-  const {timerInput} = useSelector((state) => state.timer);
+  const { timerInput } = useSelector((state) => state.timer);
   const dispatch = useDispatch();
 
   return (
@@ -27,6 +27,11 @@ const TimerInput = () => {
           onPress={() => dispatch(backspaceInput())}
           onLongPress={() => dispatch(clearTimerInput())}
           style={styles.backspace}
+          android_ripple={{
+            color: "rgba(255, 255, 255, 0.2)",
+            borderless: true,
+            radius: 25,
+          }}
         >
           <BackspaceIcon />
         </Pressable>
@@ -58,6 +63,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   backspace: {
-    marginLeft: 10,
+    marginLeft: 4,
+    padding: 8,
   },
 });

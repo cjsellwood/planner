@@ -35,7 +35,12 @@ export default (state = initialState, action) => {
       };
     }
     case "CREATE_NOTE": {
-      const notesCopy = duplicateNotes(state.notes);
+      let notesCopy;
+      if (state.notes) {
+        notesCopy = duplicateNotes(state.notes);
+      } else {
+        notesCopy = [];
+      }
       return {
         ...state,
         notes: [...notesCopy, action.newNote],

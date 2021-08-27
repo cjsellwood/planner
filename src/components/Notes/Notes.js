@@ -6,6 +6,7 @@ import {
   Text,
   FlatList,
   StatusBar,
+  TouchableOpacity,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-native";
@@ -48,7 +49,15 @@ const Notes = () => {
         style={styles.statusBar}
         hidden={false}
       />
-      <Pressable onPress={newNotePress} style={styles.newNoteButton}>
+      <Pressable
+        onPress={newNotePress}
+        style={styles.newNoteButton}
+        android_ripple={{
+          color: "rgba(0, 0, 0, 0.2)",
+          borderless: false,
+          radius: 30,
+        }}
+      >
         <PlusIcon />
       </Pressable>
       <Text style={styles.notesHeader}>Notes</Text>
@@ -61,7 +70,11 @@ const Notes = () => {
         }
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         renderItem={({ item }) => (
-          <Link to={`/notes/${item.id}`}>
+          <Link
+            to={`/notes/${item.id}`}
+            component={TouchableOpacity}
+            activeOpacity={0.8}
+          >
             <View style={[styles.note, styles["color" + item.color]]}>
               {item.title ? (
                 <Text style={styles.noteTitle}>{item.title}</Text>

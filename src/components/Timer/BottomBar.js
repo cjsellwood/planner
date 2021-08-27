@@ -14,7 +14,14 @@ const BottomBar = ({ playPress, pausePress, deletePress, stopPress }) => {
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
         {!started ? null : (
-          <Pressable style={styles.button} onPress={() => deletePress()}>
+          <Pressable
+            style={styles.button}
+            onPress={() => deletePress()}
+            android_ripple={{
+              color: "rgba(255, 255, 255, 0.2)",
+              borderless: false,
+            }}
+          >
             <Text style={styles.buttonText}>Delete</Text>
           </Pressable>
         )}
@@ -24,12 +31,25 @@ const BottomBar = ({ playPress, pausePress, deletePress, stopPress }) => {
           <Pressable
             style={styles.playPauseIcon}
             onPress={() => playPress(timerInput)}
+            android_ripple={{
+              color: "rgba(0, 0, 0, 0.2)",
+              borderless: false,
+              radius: 30,
+            }}
           >
             <PlayIcon />
           </Pressable>
         )}
         {started && !paused && !finished ? (
-          <Pressable style={styles.playPauseIcon} onPress={() => pausePress()}>
+          <Pressable
+            style={styles.playPauseIcon}
+            onPress={() => pausePress()}
+            android_ripple={{
+              color: "rgba(0, 0, 0, 0.2)",
+              borderless: false,
+              radius: 30,
+            }}
+          >
             <PauseIcon />
           </Pressable>
         ) : null}
@@ -38,6 +58,11 @@ const BottomBar = ({ playPress, pausePress, deletePress, stopPress }) => {
             <Pressable
               style={styles.playPauseIcon}
               onPress={() => stopPress(timerInput)}
+              android_ripple={{
+                color: "rgba(0, 0, 0, 0.2)",
+                borderless: false,
+                radius: 30,
+              }}
             >
               <StopIcon />
             </Pressable>

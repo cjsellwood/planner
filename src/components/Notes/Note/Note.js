@@ -106,6 +106,11 @@ const Note = () => {
                     <Pressable
                       style={styles.checkIconContainer}
                       onPress={() => dispatch(toggleCheckbox(noteIndex, index))}
+                      android_ripple={{
+                        color: "rgba(255, 255, 255, 0.4)",
+                        borderless: false,
+                        radius: 12,
+                      }}
                     >
                       <SquareIcon />
                     </Pressable>
@@ -123,10 +128,17 @@ const Note = () => {
                         onPress={() =>
                           dispatch(deleteCheckbox(noteIndex, index))
                         }
+                        android_ripple={{
+                          color: "rgba(255, 255, 255, 0.4)",
+                          borderless: true,
+                          radius: 15,
+                        }}
                       >
                         <Text style={styles.deleteLineText}>x</Text>
                       </Pressable>
-                    ) : null}
+                    ) : (
+                      <View style={styles.deleteButtonPlaceholder}></View>
+                    )}
                   </View>
                 );
               }
@@ -148,6 +160,11 @@ const Note = () => {
                     <Pressable
                       style={styles.checkIconContainer}
                       onPress={() => dispatch(toggleCheckbox(noteIndex, index))}
+                      android_ripple={{
+                        color: "rgba(255, 255, 255, 0.4)",
+                        borderless: false,
+                        radius: 12,
+                      }}
                     >
                       <CheckedFill />
                     </Pressable>
@@ -165,10 +182,19 @@ const Note = () => {
                         onPress={() =>
                           dispatch(deleteCheckbox(noteIndex, index))
                         }
+                        android_ripple={{
+                          color: "rgba(255, 255, 255, 0.4)",
+                          borderless: true,
+                          radius: 15,
+                        }}
                       >
                         <Text style={styles.deleteLineText}>x</Text>
                       </Pressable>
-                    ) : null}
+                    ) : (
+                      <View style={styles.deleteButtonPlaceholder}>
+                        <Text style={styles.deleteLineText}>x</Text>
+                      </View>
+                    )}
                   </View>
                 );
               }
@@ -231,6 +257,10 @@ const styles = StyleSheet.create({
     width: 25,
     justifyContent: "center",
     alignItems: "center",
+  },
+  deleteButtonPlaceholder: {
+    height: 25,
+    width: 25,
   },
   deleteLineText: {
     color: "white",

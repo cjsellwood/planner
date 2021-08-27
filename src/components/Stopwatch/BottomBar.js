@@ -12,7 +12,14 @@ const BottomBar = ({ resetPress, playPausePress }) => {
       <View style={styles.bottomBar}>
         <View style={styles.bottomBarItem}>
           {stopwatch === 0 ? null : (
-            <Pressable onPress={() => resetPress()} style={styles.button}>
+            <Pressable
+              onPress={() => resetPress()}
+              style={styles.button}
+              android_ripple={{
+                color: "rgba(255, 255, 255, 0.2)",
+                borderless: false,
+              }}
+            >
               <Text style={styles.buttonText}>Reset</Text>
             </Pressable>
           )}
@@ -21,6 +28,11 @@ const BottomBar = ({ resetPress, playPausePress }) => {
           <Pressable
             onPress={() => playPausePress()}
             style={styles.playPauseIcon}
+            android_ripple={{
+              color: "rgba(0, 0, 0, 0.2)",
+              borderless: false,
+              radius: 30,
+            }}
           >
             {!started ? <PlayIcon /> : <PauseIcon />}
           </Pressable>
