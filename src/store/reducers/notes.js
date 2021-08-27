@@ -96,6 +96,14 @@ export default (state = initialState, action) => {
         notes: notesCopy,
       };
     }
+    case "ADD_NEW_CHECKBOX": {
+      const notesCopy = duplicateNotes(state.notes);
+      notesCopy[action.noteIndex].checkboxes.push({ checked: false, text: "" });
+      return {
+        ...state,
+        notes: notesCopy,
+      };
+    }
 
     default:
       return state;

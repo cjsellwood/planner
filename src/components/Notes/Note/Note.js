@@ -17,11 +17,13 @@ import {
   changeCheckboxText,
   deleteCheckbox,
   toggleCheckbox,
+  addNewCheckbox,
 } from "../../../store/actions/notes";
 import BottomBar from "./BottomBar";
 import TopBar from "./TopBar";
 import SquareIcon from "./icons/SquareIcon";
 import CheckedFill from "./icons/CheckedFill";
+import PlusIcon from "../PlusIcon";
 
 const Note = () => {
   const { id } = useParams();
@@ -96,34 +98,80 @@ const Note = () => {
             multiline={true}
           />
         ) : (
-          <View>
+          <View style={styles.checkBoxViewContainer}>
             {note.checkboxes.map((line, index) => {
-              return (
-                <View key={"line" + index} style={styles.checkBoxContainer}>
-                  <Pressable
-                    style={styles.checkIconContainer}
-                    onPress={() => dispatch(toggleCheckbox(noteIndex, index))}
-                  >
-                    {line.checked ? <CheckedFill /> : <SquareIcon />}
-                  </Pressable>
-                  <TextInput
-                    style={styles.checkText}
-                    value={line.text}
-                    onChange={(e) => textLineInput(e, index)}
-                    multiline={true}
-                    onFocus={() => setDeleteButton(index)}
-                    onBlur={() => setDeleteButton(null)}
-                  />
-                  {deleteButton === index ? (
+              if (!line.checked) {
+                return (
+                  <View key={"line" + index} style={styles.checkBoxContainer}>
                     <Pressable
-                      style={styles.deleteLineButton}
-                      onPress={() => dispatch(deleteCheckbox(noteIndex, index))}
+                      style={styles.checkIconContainer}
+                      onPress={() => dispatch(toggleCheckbox(noteIndex, index))}
                     >
-                      <Text style={styles.deleteLineText}>x</Text>
+                      <SquareIcon />
                     </Pressable>
-                  ) : null}
-                </View>
-              );
+                    <TextInput
+                      style={styles.checkText}
+                      value={line.text}
+                      onChange={(e) => textLineInput(e, index)}
+                      multiline={true}
+                      onFocus={() => setDeleteButton(index)}
+                      onBlur={() => setDeleteButton(null)}
+                    />
+                    {deleteButton === index ? (
+                      <Pressable
+                        style={styles.deleteLineButton}
+                        onPress={() =>
+                          dispatch(deleteCheckbox(noteIndex, index))
+                        }
+                      >
+                        <Text style={styles.deleteLineText}>x</Text>
+                      </Pressable>
+                    ) : null}
+                  </View>
+                );
+              }
+            })}
+            <Pressable
+              style={styles.addItemButton}
+              onPress={() => dispatch(addNewCheckbox(noteIndex))}
+            >
+              <PlusIcon width="18" height="18" />
+              <Text style={styles.addItemText}>ADD ITEM</Text>
+            </Pressable>
+            {note.checkboxes.filter((line) => line.checked === true).length ? (
+              <View style={styles.checkboxSeparator}></View>
+            ) : null}
+            {note.checkboxes.map((line, index) => {
+              if (line.checked) {
+                return (
+                  <View key={"line" + index} style={styles.checkBoxContainer}>
+                    <Pressable
+                      style={styles.checkIconContainer}
+                      onPress={() => dispatch(toggleCheckbox(noteIndex, index))}
+                    >
+                      <CheckedFill />
+                    </Pressable>
+                    <TextInput
+                      style={styles.checkTextFilled}
+                      value={line.text}
+                      onChange={(e) => textLineInput(e, index)}
+                      multiline={true}
+                      onFocus={() => setDeleteButton(index)}
+                      onBlur={() => setDeleteButton(null)}
+                    />
+                    {deleteButton === index ? (
+                      <Pressable
+                        style={styles.deleteLineButton}
+                        onPress={() =>
+                          dispatch(deleteCheckbox(noteIndex, index))
+                        }
+                      >
+                        <Text style={styles.deleteLineText}>x</Text>
+                      </Pressable>
+                    ) : null}
+                  </View>
+                );
+              }
             })}
           </View>
         )}
@@ -140,7 +188,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginBottom: theme.navBarHeight,
   },
-
   noteContainer: {
     flex: 1,
     padding: 16,
@@ -156,6 +203,9 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
     lineHeight: 22,
   },
+  checkBoxViewContainer: {
+    paddingBottom: 16,
+  },
   checkBoxContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -163,10 +213,19 @@ const styles = StyleSheet.create({
   checkText: {
     color: "white",
     fontSize: 16,
-    marginLeft: 6,
+    marginLeft: 8,
     flex: 1,
     lineHeight: 22,
   },
+  checkTextFilled: {
+    fontSize: 16,
+    marginLeft: 8,
+    flex: 1,
+    lineHeight: 22,
+    color: "lightgray",
+    textDecorationLine: "line-through",
+  },
+  checkboxSeparator: { backgroundColor: "gray", height: 1, marginVertical: 12 },
   deleteLineButton: {
     height: 25,
     width: 25,
@@ -183,6 +242,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: 20,
     height: 20,
+  },
+  addItemButton: {
+    paddingVertical: 8,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingLeft: 1,
+  },
+  addItemText: {
+    color: "white",
+    marginLeft: 10,
+    fontSize: 16,
   },
   color0: {
     backgroundColor: theme.noteColors[0],

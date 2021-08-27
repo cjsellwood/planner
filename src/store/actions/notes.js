@@ -142,9 +142,13 @@ export const changeCheckboxText = (noteIndex, text, line) => {
 
     clearInterval(checkboxTimeout);
     checkboxTimeout = setTimeout(async () => {
-      const stored = await get();
-      stored[noteIndex].checkboxes[line].text = text;
-      await store(stored);
+      try {
+        const stored = await get();
+        stored[noteIndex].checkboxes[line].text = text;
+        await store(stored);
+      } catch (error) {
+        null;
+      }
     }, 500);
   };
 };
@@ -178,12 +182,14 @@ export const toggleCheckbox = (noteIndex, line) => {
   };
 };
 
-export const addNewCheckbox = (noteIndex, line) => {
+export const addNewCheckbox = (noteIndex) => {
   return async (dispatch) => {
     dispatch({
       type: "ADD_NEW_CHECKBOX",
       noteIndex,
-      line,
     });
+    const stored = await get();
+    stored[noteIndex].checkboxes.push({ checked: false, text: "" });
+    await store(stored);
   };
 };

@@ -2,12 +2,12 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import Svg, { Path } from "react-native-svg";
 
-const PlusIcon = () => {
+const PlusIcon = ({ width, height }) => {
   return (
     <Svg
       xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
+      width={width}
+      height={height}
       fill="currentColor"
       viewBox="0 0 16 16"
       style={styles.svg}
@@ -21,8 +21,6 @@ export default PlusIcon;
 
 const styles = StyleSheet.create({
   svg: {
-    marginLeft: "auto",
-    marginRight: "auto",
     color: "white",
   },
 });
