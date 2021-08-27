@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import Svg, { Path } from "react-native-svg";
+import theme from "../../../../theme";
 
 const CheckedFill = () => {
   return (
@@ -21,7 +22,7 @@ export default CheckedFill;
 
 const styles = StyleSheet.create({
   svg: {
-    color: "lightgray",
+    color: theme.colors.dullNoteText,
     marginTop: 1,
   },
 });

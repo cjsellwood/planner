@@ -71,7 +71,9 @@ const Note = () => {
       <StatusBar
         animated={false}
         barStyle={"light-content"}
-        backgroundColor={theme.noteColors[note.color]}
+        backgroundColor={
+          theme.noteColorStyles["color" + note.color].backgroundColor
+        }
         style={styles.statusBar}
         hidden={false}
       />
@@ -146,6 +148,10 @@ const Note = () => {
             <Pressable
               style={styles.addItemButton}
               onPress={() => dispatch(addNewCheckbox(noteIndex))}
+              android_ripple={{
+                color: "rgba(255, 255, 255, 0.1)",
+                borderless: false,
+              }}
             >
               <PlusIcon width="18" height="18" />
               <Text style={styles.addItemText}>ADD ITEM</Text>
@@ -192,7 +198,7 @@ const Note = () => {
                       </Pressable>
                     ) : (
                       <View style={styles.deleteButtonPlaceholder}>
-                        <Text style={styles.deleteLineText}>x</Text>
+                        <Text style={styles.deleteLineText}></Text>
                       </View>
                     )}
                   </View>
@@ -248,7 +254,7 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     flex: 1,
     lineHeight: 22,
-    color: "lightgray",
+    color: theme.colors.dullNoteText,
     textDecorationLine: "line-through",
   },
   checkboxSeparator: { backgroundColor: "gray", height: 1, marginVertical: 12 },
@@ -284,31 +290,5 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 16,
   },
-  color0: {
-    backgroundColor: theme.noteColors[0],
-  },
-  color1: {
-    backgroundColor: theme.noteColors[1],
-  },
-  color2: {
-    backgroundColor: theme.noteColors[2],
-  },
-  color3: {
-    backgroundColor: theme.noteColors[3],
-  },
-  color4: {
-    backgroundColor: theme.noteColors[4],
-  },
-  color5: {
-    backgroundColor: theme.noteColors[5],
-  },
-  color6: {
-    backgroundColor: theme.noteColors[6],
-  },
-  color7: {
-    backgroundColor: theme.noteColors[7],
-  },
-  color8: {
-    backgroundColor: theme.noteColors[8],
-  },
+  ...theme.noteColorStyles,
 });

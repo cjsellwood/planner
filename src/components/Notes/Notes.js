@@ -195,31 +195,5 @@ const styles = StyleSheet.create({
     color: "white",
     marginLeft: 26,
   },
-  color0: {
-    backgroundColor: theme.noteColors[0],
-  },
-  color1: {
-    backgroundColor: theme.noteColors[1],
-  },
-  color2: {
-    backgroundColor: theme.noteColors[2],
-  },
-  color3: {
-    backgroundColor: theme.noteColors[3],
-  },
-  color4: {
-    backgroundColor: theme.noteColors[4],
-  },
-  color5: {
-    backgroundColor: theme.noteColors[5],
-  },
-  color6: {
-    backgroundColor: theme.noteColors[6],
-  },
-  color7: {
-    backgroundColor: theme.noteColors[7],
-  },
-  color8: {
-    backgroundColor: theme.noteColors[8],
-  },
+  ...theme.noteColorStyles
 });

@@ -59,13 +59,13 @@ const BottomBar = ({ note, noteIndex }) => {
           style={styles.modal}
         >
           <Pressable style={styles.colorContainer} onPress={() => {}}>
-            {theme.noteColors.map((color, index) => (
+            {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((number) => (
               <Pressable
-                key={color}
-                style={[styles.colorChoice, styles["color" + index]]}
+                key={"color" + number}
+                style={[styles.colorChoice, styles["color" + number]]}
                 onPress={() => {
                   setShowColorChoice(false);
-                  dispatch(setNoteColor(noteIndex, index));
+                  dispatch(setNoteColor(noteIndex, number));
                 }}
               ></Pressable>
             ))}
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   lastEdited: {
-    color: "gray",
+    color: theme.colors.dullNoteText,
   },
   centerContainer: {
     flex: 1,
@@ -125,31 +125,5 @@ const styles = StyleSheet.create({
     margin: 5,
     borderRadius: 100,
   },
-  color0: {
-    backgroundColor: theme.noteColors[0],
-  },
-  color1: {
-    backgroundColor: theme.noteColors[1],
-  },
-  color2: {
-    backgroundColor: theme.noteColors[2],
-  },
-  color3: {
-    backgroundColor: theme.noteColors[3],
-  },
-  color4: {
-    backgroundColor: theme.noteColors[4],
-  },
-  color5: {
-    backgroundColor: theme.noteColors[5],
-  },
-  color6: {
-    backgroundColor: theme.noteColors[6],
-  },
-  color7: {
-    backgroundColor: theme.noteColors[7],
-  },
-  color8: {
-    backgroundColor: theme.noteColors[8],
-  },
+  ...theme.noteColorStyles,
 });
