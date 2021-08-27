@@ -21,7 +21,7 @@ const Notes = () => {
 
   // Set highlighted navbar tab
   useEffect(() => {
-    // dispatch(setPage("Notes"));
+    dispatch(setPage("Notes"));
   }, []);
 
   const { notes, storageUsed } = useSelector((state) => state.notes);
@@ -67,21 +67,47 @@ const Notes = () => {
                 <Text style={styles.noteTitle}>{item.title}</Text>
               ) : null}
               {item.text ? (
-                <Text style={styles.noteText}>{item.text}</Text>
+                <Text style={styles.noteText}>
+                  {item.text.includes("\n") &&
+                  item.text.match(/\n/g).length &&
+                  item.text.length < 150 > 5
+                    ? item.text.split("\n").slice(0, 5).join("\n") + "..."
+                    : item.text.length > 150
+                      ? item.text.slice(0, 150) + "..."
+                      : item.text}
+                </Text>
               ) : item.checkboxes ? (
-                item.checkboxes.map((line, index) => {
-                  if (!line.checked) {
-                    return (
-                      <View
-                        key={"check" + index}
-                        style={styles.checkboxContainer}
-                      >
-                        <SquareIcon />
-                        <Text style={styles.checkBoxText}>{line.text}</Text>
-                      </View>
-                    );
-                  }
-                })
+                <View>
+                  {item.checkboxes
+                    .filter((line) => !line.checked)
+                    .map((line, index) => {
+                      if (index < 5) {
+                        let text = line.text;
+                        if (
+                          line.text.includes("\n") &&
+                          line.text.match(/\n/g).length >= 3
+                        ) {
+                          text =
+                            line.text.split("\n").slice(0, 3).join("\n") +
+                            "...";
+                        } else if (line.text.length >= 140) {
+                          text = line.text.slice(0, 140) + "...";
+                        }
+                        return (
+                          <View
+                            key={"check" + index}
+                            style={styles.checkboxContainer}
+                          >
+                            <SquareIcon />
+                            <Text style={styles.checkBoxText}>{text}</Text>
+                          </View>
+                        );
+                      }
+                    })}
+                  {item.checkboxes.length > 5 ? (
+                    <Text style={styles.tooLongText}>...</Text>
+                  ) : null}
+                </View>
               ) : null}
             </View>
           </Link>
@@ -150,6 +176,11 @@ const styles = StyleSheet.create({
     marginLeft: 6,
     color: "white",
     lineHeight: 20,
+    marginRight: 14,
+  },
+  tooLongText: {
+    color: "white",
+    marginLeft: 26,
   },
   color0: {
     backgroundColor: theme.noteColors[0],
