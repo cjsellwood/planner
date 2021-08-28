@@ -3,8 +3,6 @@ import {
   Pressable,
   StyleSheet,
   View,
-  TouchableOpacity,
-  TouchableHighlight,
 } from "react-native";
 import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-native";

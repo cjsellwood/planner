@@ -14,9 +14,13 @@ export const changeTitle = (noteIndex, title) => {
 
     clearTimeout(titleTimeout);
     titleTimeout = setTimeout(async () => {
-      const stored = await get();
-      stored[noteIndex].title = title;
-      await store(stored);
+      try {
+        const stored = await get();
+        stored[noteIndex].title = title;
+        await store(stored);
+      } catch (error) {
+        null;
+      }
     }, 500);
   };
 };
@@ -32,9 +36,13 @@ export const changeText = (noteIndex, text) => {
 
     clearTimeout(textTimeout);
     textTimeout = setTimeout(async () => {
-      const stored = await get();
-      stored[noteIndex].text = text;
-      await store(stored);
+      try {
+        const stored = await get();
+        stored[noteIndex].text = text;
+        await store(stored);
+      } catch (error) {
+        null;
+      }
     }, 500);
   };
 };

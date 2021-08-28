@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Switch, Route, Redirect } from "react-router-native";
-import Notes from "./Notes/Notes";
+import NotesList from "./Notes/NotesList/NotesList";
 import Reminders from "./Reminders/Reminders";
 import Timer from "./Timer/Timer";
 import Stopwatch from "./Stopwatch/Stopwatch";
@@ -17,7 +17,7 @@ const Main = () => {
           <Redirect exact from="/" to="/notes" />
         </Route>
         <Route exact path="/notes">
-          <Notes />
+          <NotesList />
         </Route>
         <Route path="/notes/:id">
           <Note />

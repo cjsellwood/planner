@@ -23,7 +23,7 @@ import BottomBar from "./BottomBar";
 import TopBar from "./TopBar";
 import SquareIcon from "./icons/SquareIcon";
 import CheckedFill from "./icons/CheckedFill";
-import PlusIcon from "../PlusIcon";
+import PlusIcon from "./icons/PlusIcon";
 
 const Note = () => {
   const { id } = useParams();
@@ -89,6 +89,7 @@ const Note = () => {
           placeholder="Title"
           placeholderTextColor={"gray"}
           multiline={true}
+          maxLength={100}
         />
         {!note.checkboxes ? (
           <TextInput
@@ -153,7 +154,7 @@ const Note = () => {
                 borderless: false,
               }}
             >
-              <PlusIcon width="18" height="18" />
+              <PlusIcon />
               <Text style={styles.addItemText}>ADD ITEM</Text>
             </Pressable>
             {note.checkboxes.filter((line) => line.checked === true).length ? (
