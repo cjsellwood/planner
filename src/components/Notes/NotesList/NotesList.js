@@ -14,7 +14,7 @@ const NotesList = () => {
 
   // Set highlighted navbar tab
   useEffect(() => {
-    // dispatch(setPage("Notes"));
+    dispatch(setPage("Notes"));
   }, []);
 
   const { notes, storageUsed } = useSelector((state) => state.notes);
