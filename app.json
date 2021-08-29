@@ -1,6 +1,7 @@
 {
   "expo": {
-    "name": "planner",
+    "name": "Planner",
+    "description": "An app with a variety of useful tools",
     "slug": "planner",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -8,7 +9,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#1E1E1E"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -17,13 +18,17 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.cjsellwood.planner",
+      "buildNumber": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
+        "backgroundColor": "#1E1E1E"
+      },
+      "package": "com.yourcompany.yourappname",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"

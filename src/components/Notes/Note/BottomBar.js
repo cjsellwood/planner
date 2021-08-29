@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useDispatch } from "react-redux";
 import theme from "../../../theme";
 import displayEditDate from "./displayEditDate";
 import ColorIcon from "./icons/ColorIcon";
-import { setNoteColor, changeType } from "../../../store/actions/notes";
+import { changeType } from "../../../store/actions/notes";
 import CheckboxIcon from "./icons/CheckboxIcon";
 import NotesIcon from "./icons/NotesIcon";
+import ColorModal from "./ColorModal";
 
 const BottomBar = ({ note, noteIndex }) => {
   const [showColorChoice, setShowColorChoice] = useState(false);
@@ -45,33 +46,11 @@ const BottomBar = ({ note, noteIndex }) => {
           {note.checkboxes ? <NotesIcon /> : <CheckboxIcon />}
         </Pressable>
       </View>
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={showColorChoice}
-        onRequestClose={() => setShowColorChoice(false)}
-        statusBarTranslucent={true}
-      >
-        <Pressable
-          onPress={() => {
-            setShowColorChoice(false);
-          }}
-          style={styles.modal}
-        >
-          <Pressable style={styles.colorContainer} onPress={() => {}}>
-            {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((number) => (
-              <Pressable
-                key={"color" + number}
-                style={[styles.colorChoice, styles["color" + number]]}
-                onPress={() => {
-                  setShowColorChoice(false);
-                  dispatch(setNoteColor(noteIndex, number));
-                }}
-              ></Pressable>
-            ))}
-          </Pressable>
-        </Pressable>
-      </Modal>
+      <ColorModal
+        showColorChoice={showColorChoice}
+        setShowColorChoice={setShowColorChoice}
+        noteIndex={noteIndex}
+      />
     </View>
   );
 };
@@ -101,29 +80,4 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  modal: {
-    justifyContent: "center",
-    alignItems: "center",
-    flex: 1,
-    backgroundColor: "rgba(1, 1, 1, 0.7)",
-  },
-  colorContainer: {
-    backgroundColor: theme.colors.mainBackground,
-    borderWidth: 1,
-    borderColor: "gray",
-    borderRadius: 8,
-    flexWrap: "wrap",
-    flexDirection: "row",
-    width: 160,
-    padding: 4,
-  },
-  colorChoice: {
-    borderWidth: 1,
-    borderColor: "gray",
-    width: 40,
-    height: 40,
-    margin: 5,
-    borderRadius: 100,
-  },
-  ...theme.noteColorStyles,
 });
