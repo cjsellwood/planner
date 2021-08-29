@@ -2,12 +2,21 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import theme from "../../theme";
 
-const ReminderItem = ({ item }) => {
+const ReminderItem = ({ reminder }) => {
+  // TODO - Add Delete button
+  // TODO - Add style to show if past their time
   return (
-    <View style={[styles.reminderItem, styles["color" + item.color]]}>
-      {item.label ? <Text style={styles.text}>{item.label}</Text> : null}
-      <Text style={styles.text}>{item.time}</Text>
-      <Text style={styles.text}>{new Date(item.time).toLocaleString()}</Text>
+    <View style={[styles.reminderItem, styles["color" + reminder.color]]}>
+      {reminder.label ? (
+        <Text style={styles.text}>{reminder.label}</Text>
+      ) : null}
+      <Text style={styles.text}>{reminder.time}</Text>
+      <Text style={styles.text}>
+        {new Date(reminder.time).toLocaleString()}
+      </Text>
+      {reminder.time < Date.now() ? (
+        <View style={styles.oldOverlay}></View>
+      ) : null}
     </View>
   );
 };
@@ -23,6 +32,15 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "white",
+  },
+  oldOverlay: {
+    backgroundColor: "rgba(1, 1, 1, 0.5)",
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    borderRadius: 4,
   },
   ...theme.noteColorStyles,
 });

@@ -1,8 +1,9 @@
 import React from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View, Text } from "react-native";
 import { useSelector } from "react-redux";
 import ReminderItem from "./ReminderItem";
 import duplicateReminders from "../../functions/duplicateReminders";
+import theme from "../../theme";
 
 const RemindersList = () => {
   const { reminders } = useSelector((state) => state.reminders);
@@ -17,16 +18,20 @@ const RemindersList = () => {
           .filter((reminder) => reminder.time > Date.now())
           .map((reminder) => (
             <React.Fragment key={reminder.id}>
-              <ReminderItem item={reminder} />
+              <ReminderItem reminder={reminder} />
               <View style={styles.separator} />
             </React.Fragment>
           ))}
-        <View style={styles.typeSeparator} />
+        {remindersCopy.some((reminder) => reminder.time < Date.now()) ? (
+          <View style={styles.typeSeparator}>
+            <Text style={styles.typeSeparatorText}>Old</Text>
+          </View>
+        ) : null}
         {remindersCopy
           .filter((reminder) => reminder.time <= Date.now())
           .map((reminder) => (
             <React.Fragment key={reminder.id}>
-              <ReminderItem item={reminder} />
+              <ReminderItem reminder={reminder} />
               <View style={styles.separator} />
             </React.Fragment>
           ))}
@@ -42,8 +47,17 @@ const styles = StyleSheet.create({
     padding: 6,
   },
   typeSeparator: {
-    backgroundColor: "gray",
-    padding: 2,
-    marginBottom: 8,
+    backgroundColor: "lightgray",
+    height: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginVertical: 20,
+  },
+  typeSeparatorText: {
+    color: "white",
+    backgroundColor: theme.colors.mainBackground,
+    padding: 8,
+    fontSize: 16,
+    lineHeight: 16,
   },
 });
