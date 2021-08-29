@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import { StyleSheet, Pressable, TextInput, Text, View } from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import theme from "../../theme";
 import { v4 as uuid } from "uuid";
 import { useDispatch } from "react-redux";
 import { addNewReminder } from "../../store/actions/reminders";
+import ModalButtons from "./ModalButtons";
+import DateButtons from "./DateButtons";
 
 const EditReminder = ({ setNewReminderModal }) => {
   const [label, setLabel] = useState("");
   const [date, setDate] = useState(new Date(Date.now()));
   const [showDate, setShowDate] = useState(false);
   const [pickerMode, setPickerMode] = useState("date");
-  const [color, setColor] = useState(0);
+  const [color, setColor] = useState(Math.floor(Math.random() * 9));
   const [inputError, setInputError] = useState(null);
 
   const dispatch = useDispatch();
@@ -35,31 +36,6 @@ const EditReminder = ({ setNewReminderModal }) => {
     setPickerMode(currentMode);
   };
 
-  // Show the date picker
-  const showDatePicker = () => {
-    showPicker("date");
-  };
-
-  // Show the time picker
-  const showTimePicker = () => {
-    showPicker("time");
-  };
-
-  // Display time in a readable format
-  const displayTime = (date) => {
-    const hour = date.getHours();
-    const minute = date.getMinutes();
-    let time = `${hour % 12 === 0 ? "12" : hour % 12}:${minute
-      .toString()
-      .padStart(2, "0")}`;
-    if (hour >= 12) {
-      time += " pm";
-    } else {
-      time += " am";
-    }
-    return time;
-  };
-
   const submitNewReminder = () => {
     const currentDate = date;
     currentDate.setSeconds(0, 0);
@@ -79,63 +55,38 @@ const EditReminder = ({ setNewReminderModal }) => {
       <TextInput
         placeholder="Label"
         placeholderTextColor={"gray"}
-        maxLength={50}
+        maxLength={48}
         value={label}
         onChangeText={(text) => setLabel(text)}
         style={styles.labelInput}
       />
-      <Pressable onPress={showDatePicker}>
-        <Text style={styles.dateText}>{date.toLocaleDateString()}</Text>
-      </Pressable>
-      <Pressable onPress={showTimePicker}>
-        <Text style={styles.dateText}>{displayTime(date)}</Text>
-      </Pressable>
-      {showDate ? (
-        <DateTimePicker
-          value={date}
-          onChange={changeDate}
-          mode={pickerMode}
-          minimumDate={new Date(Date.now())}
-        />
-      ) : null}
-      <Pressable style={styles.colorContainer} onPress={() => {}}>
-        {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((number) => (
-          <Pressable
-            key={"color" + number}
-            style={[
-              styles.colorChoice,
-              styles["color" + number],
-              color === number && styles.colorChoiceHighlight,
-            ]}
-            onPress={() => setColor(number)}
-          ></Pressable>
-        ))}
-      </Pressable>
-      <View style={styles.buttonContainer}>
-        <Pressable
-          onPress={() => setNewReminderModal(false)}
-          android_ripple={{
-            color: "rgba(255, 255, 255, 0.1)",
-            borderless: false,
-          }}
-        >
-          <Text style={styles.buttonText}>CANCEL</Text>
-        </Pressable>
-        <Pressable
-          onPress={submitNewReminder}
-          android_ripple={{
-            color: "rgba(255, 255, 255, 0.1)",
-            borderless: false,
-          }}
-          disabled={inputError}
-        >
-          <Text
-            style={[styles.buttonText, inputError && styles.disabledButton]}
-          >
-            OK
-          </Text>
+      <DateButtons
+        date={date}
+        showPicker={showPicker}
+        showDate={showDate}
+        changeDate={changeDate}
+        pickerMode={pickerMode}
+      />
+      <View style={styles.colorsWrapper}>
+        <Pressable style={styles.colorContainer} onPress={() => {}}>
+          {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((number) => (
+            <Pressable
+              key={"color" + number}
+              style={[
+                styles.colorChoice,
+                styles["color" + number],
+                color === number && styles.colorChoiceHighlight,
+              ]}
+              onPress={() => setColor(number)}
+            ></Pressable>
+          ))}
         </Pressable>
       </View>
+      <ModalButtons
+        submitNewReminder={submitNewReminder}
+        inputError={inputError}
+        setNewReminderModal={setNewReminderModal}
+      />
     </Pressable>
   );
 };
@@ -144,7 +95,7 @@ export default EditReminder;
 
 const styles = StyleSheet.create({
   modalContent: {
-    padding: 8,
+    padding: 16,
     marginBottom: 100,
     borderRadius: 8,
     borderColor: "gray",
@@ -153,12 +104,16 @@ const styles = StyleSheet.create({
   },
   inputError: {
     color: "#cf4e40",
+    paddingBottom: 6,
+    textAlign: "center",
   },
   labelInput: {
     color: "white",
+    borderColor: "gray",
+    borderBottomWidth: 1,
   },
-  dateText: {
-    color: "white",
+  colorsWrapper: {
+    alignItems: "center",
   },
   colorContainer: {
     backgroundColor: theme.colors.mainBackground,
@@ -176,20 +131,6 @@ const styles = StyleSheet.create({
   colorChoiceHighlight: {
     borderColor: "white",
     borderWidth: 1,
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-  },
-  buttonText: {
-    color: theme.colors.primary,
-    padding: 8,
-    width: 80,
-    textAlign: "center",
-    marginHorizontal: 4,
-  },
-  disabledButton: {
-    color: "gray",
   },
   ...theme.noteColorStyles,
 });
