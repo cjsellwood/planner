@@ -10,12 +10,14 @@ import global from "./src/store/reducers/global";
 import stopwatch from "./src/store/reducers/stopwatch";
 import timer from "./src/store/reducers/timer";
 import notes from "./src/store/reducers/notes";
+import reminders from "./src/store/reducers/reminders";
 
 const rootReducer = combineReducers({
   global: global,
   stopwatch: stopwatch,
   timer: timer,
   notes: notes,
+  reminders: reminders,
 });
 
 const store = createStore(
@@ -27,7 +29,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <NativeRouter>
-        <BackButton/>
+        <BackButton />
         <Main />
       </NativeRouter>
     </Provider>

@@ -1,19 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, StatusBar, Modal, Pressable } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { setPage } from "../../store/actions/global";
+import { initReminders } from "../../store/actions/reminders";
 import theme from "../../theme";
 import AddReminderButton from "./AddReminderButton";
 import EditReminder from "./EditReminder";
+import RemindersList from "./RemindersList";
 
 const Reminders = () => {
   const dispatch = useDispatch();
+  const { storageUsed } = useSelector((state) => state.reminders);
 
   // Set highlighted navbar tab
   useEffect(() => {
     dispatch(setPage("Reminders"));
   }, []);
+
+  useEffect(() => {
+    if (!storageUsed) {
+      dispatch(initReminders());
+    }
+  }, [storageUsed]);
 
   const [newReminderModal, setNewReminderModal] = useState(false);
 
@@ -27,6 +36,7 @@ const Reminders = () => {
         hidden={false}
       />
       <AddReminderButton setNewReminderModal={setNewReminderModal} />
+      <RemindersList />
       <Modal
         animationType="fade"
         transparent={true}
@@ -40,7 +50,7 @@ const Reminders = () => {
           }}
           style={styles.modal}
         >
-          <EditReminder />
+          <EditReminder setNewReminderModal={setNewReminderModal} />
         </Pressable>
       </Modal>
     </View>
@@ -65,5 +75,4 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "rgba(1, 1, 1, 0.7)",
   },
-
 });

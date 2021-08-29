@@ -57,8 +57,6 @@ const styles = StyleSheet.create({
     padding: 4,
   },
   colorChoice: {
-    borderWidth: 1,
-    borderColor: "gray",
     width: 40,
     height: 40,
     margin: 5,
