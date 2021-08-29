@@ -1,16 +1,9 @@
+import showAmPm from "../../../functions/showAmPm";
+
 export default (lastEdited) => {
   const dateObj = new Date(lastEdited);
-  const hour = dateObj.getHours();
-  const minute = dateObj.getMinutes();
 
-  let time = `${hour % 12 === 0 ? "12" : hour % 12}:${minute
-    .toString()
-    .padStart(2, "0")}`;
-  if (hour >= 12) {
-    time += " pm";
-  } else {
-    time += " am";
-  }
+  const time = showAmPm(dateObj);
 
   let date;
   const dateNow = new Date(Date.now());

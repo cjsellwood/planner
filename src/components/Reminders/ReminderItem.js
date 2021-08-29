@@ -3,19 +3,20 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useDispatch } from "react-redux";
 import theme from "../../theme";
 import { deleteReminder } from "../../store/actions/reminders";
+import showAmPm from "../../functions/showAmPm";
+import formatDate from "../../functions/formatDate";
 
 const ReminderItem = ({ reminder }) => {
   const dispatch = useDispatch();
-  // TODO - Add Delete button
   // TODO - Style Reminder
+
   return (
     <View style={[styles.reminderItem, styles["color" + reminder.color]]}>
       {reminder.label ? (
         <Text style={styles.label}>{reminder.label}</Text>
       ) : null}
-      <Text style={styles.text}>
-        {new Date(reminder.time).toLocaleString()}
-      </Text>
+      <Text style={styles.text}>{showAmPm(new Date(reminder.time))}</Text>
+      <Text style={styles.text}>{formatDate(new Date(reminder.time))}</Text>
       <Pressable
         onPress={() => dispatch(deleteReminder(reminder.id))}
         style={styles.deleteButton}
