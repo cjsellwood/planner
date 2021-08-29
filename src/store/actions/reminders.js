@@ -23,3 +23,14 @@ export const initReminders = () => {
     dispatch({ type: "INIT_REMINDERS", reminders });
   };
 };
+
+export const deleteReminder = (id) => {
+  return async (dispatch) => {
+    dispatch({
+      type: "DELETE_REMINDER",
+      id,
+    });
+    const stored = await get();
+    await store(stored.filter((reminder) => reminder.id !== id));
+  };
+};

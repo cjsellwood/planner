@@ -22,6 +22,16 @@ const reducer = (state = initialState, action) => {
         reminders: action.reminders,
       };
     }
+    case "DELETE_REMINDER": {
+      const remindersCopy = duplicateReminders(state.reminders);
+
+      return {
+        ...state,
+        reminders: remindersCopy.filter(
+          (reminder) => reminder.id !== action.id
+        ),
+      };
+    }
     default:
       return state;
   }

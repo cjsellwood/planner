@@ -1,21 +1,33 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import { useDispatch } from "react-redux";
 import theme from "../../theme";
+import { deleteReminder } from "../../store/actions/reminders";
 
 const ReminderItem = ({ reminder }) => {
+  const dispatch = useDispatch();
   // TODO - Add Delete button
-  // TODO - Add style to show if past their time
+  // TODO - Style Reminder
   return (
     <View style={[styles.reminderItem, styles["color" + reminder.color]]}>
       {reminder.label ? (
-        <Text style={styles.text}>{reminder.label}</Text>
+        <Text style={styles.label}>{reminder.label}</Text>
       ) : null}
-      <Text style={styles.text}>{reminder.time}</Text>
       <Text style={styles.text}>
         {new Date(reminder.time).toLocaleString()}
       </Text>
+      <Pressable
+        onPress={() => dispatch(deleteReminder(reminder.id))}
+        style={styles.deleteButton}
+        android_ripple={{
+          color: "rgba(255, 255, 255, 0.1)",
+          borderless: false,
+        }}
+      >
+        <Text>DELETE</Text>
+      </Pressable>
       {reminder.time < Date.now() ? (
-        <View style={styles.oldOverlay}></View>
+        <View style={styles.oldOverlay} pointerEvents="none"></View>
       ) : null}
     </View>
   );
@@ -30,6 +42,11 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     elevation: 4,
   },
+  label: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
   text: {
     color: "white",
   },
@@ -41,6 +58,9 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     borderRadius: 4,
+  },
+  deleteButton: {
+    padding: 8,
   },
   ...theme.noteColorStyles,
 });
