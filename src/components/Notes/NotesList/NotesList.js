@@ -26,8 +26,6 @@ const NotesList = () => {
     }
   }, [storageUsed]);
 
-  const [error, setError] = useState(null);
-
   return (
     <View style={styles.container}>
       <StatusBar
@@ -36,8 +34,8 @@ const NotesList = () => {
         backgroundColor={theme.colors.mainBackground}
         hidden={false}
       />
-      <AddNoteButton setError={setError}/>
-      <Text style={styles.notesHeader}>Notes {error}</Text>
+      <AddNoteButton/>
+      <Text style={styles.notesHeader}>Notes</Text>
       <FlatList
         keyExtractor={(item) => item.id.toString()}
         data={
