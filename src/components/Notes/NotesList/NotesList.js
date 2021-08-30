@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text, FlatList, StatusBar } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -26,6 +26,8 @@ const NotesList = () => {
     }
   }, [storageUsed]);
 
+  const [error, setError] = useState(null);
+
   return (
     <View style={styles.container}>
       <StatusBar
@@ -34,8 +36,8 @@ const NotesList = () => {
         backgroundColor={theme.colors.mainBackground}
         hidden={false}
       />
-      <AddNoteButton />
-      <Text style={styles.notesHeader}>Notes</Text>
+      <AddNoteButton setError={setError}/>
+      <Text style={styles.notesHeader}>Notes {error}</Text>
       <FlatList
         keyExtractor={(item) => item.id.toString()}
         data={

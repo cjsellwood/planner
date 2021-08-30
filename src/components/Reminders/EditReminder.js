@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { StyleSheet, Pressable, TextInput, Text, View } from "react-native";
 import theme, { noteColors } from "../../theme";
+import "react-native-get-random-values";
 import { v4 as uuid } from "uuid";
 import { useDispatch } from "react-redux";
 import { addNewReminder } from "../../store/actions/reminders";

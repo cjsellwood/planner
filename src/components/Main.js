@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { Switch, Route, Redirect, useHistory } from "react-router-native";
 import NotesList from "./Notes/NotesList/NotesList";
@@ -13,6 +13,9 @@ import * as Notifications from "expo-notifications";
 const Main = () => {
   const history = useHistory();
   useEffect(() => {
+    Notifications.getAllScheduledNotificationsAsync().then((res) => {
+      console.log("NOTIFICATIONS", res);
+    });
     const receivedSubscription = Notifications.addNotificationReceivedListener(
       (notification) => {
         console.log("Notification Received!");

@@ -6,12 +6,13 @@ import { createNote } from "../../../store/actions/notes";
 import theme from "../../../theme";
 import PlusIcon from "./icons/PlusIcon";
 
-const AddNoteButton = () => {
+const AddNoteButton = ({ setError }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
   const newNotePress = () => {
-    dispatch(createNote(history));
+    setError("pressed new note button");
+    dispatch(createNote(history, setError));
   };
   return (
     <Pressable

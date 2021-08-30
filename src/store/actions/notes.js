@@ -1,4 +1,5 @@
 import useAsyncStorage from "../../hooks/useAsyncStorage";
+import "react-native-get-random-values";
 import { v4 as uuid } from "uuid";
 
 const { get, store } = useAsyncStorage("notes");
@@ -74,30 +75,34 @@ export const deleteNote = (noteIndex) => {
   };
 };
 
-export const createNote = (history) => {
+export const createNote = (history, setError) => {
   return async (dispatch) => {
-    const newNote = {
-      id: uuid(),
-      title: "",
-      text: "",
-      lastEdited: Date.now(),
-      color: 0,
-      checkboxes: null,
-    };
+    try {
+      const newNote = {
+        id: uuid(),
+        title: "",
+        text: "",
+        lastEdited: Date.now(),
+        color: 0,
+        checkboxes: null,
+      };
 
-    await dispatch({
-      type: "CREATE_NOTE",
-      newNote,
-    });
+      await dispatch({
+        type: "CREATE_NOTE",
+        newNote,
+      });
 
-    history.push(`/notes/${newNote.id}`);
+      history.push(`/notes/${newNote.id}`);
 
-    // Store new note in async storage
-    const stored = await get();
-    if (stored) {
-      await store([...stored, newNote]);
-    } else {
-      await store([newNote]);
+      // Store new note in async storage
+      const stored = await get();
+      if (stored) {
+        await store([...stored, newNote]);
+      } else {
+        await store([newNote]);
+      }
+    } catch (error) {
+      setError(error.message);
     }
   };
 };
