@@ -12,6 +12,16 @@ import timer from "./src/store/reducers/timer";
 import notes from "./src/store/reducers/notes";
 import reminders from "./src/store/reducers/reminders";
 
+import * as Notifications from "expo-notifications";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => {
+    return {
+      shouldShowAlert: true,
+    };
+  },
+});
+
 const rootReducer = combineReducers({
   global: global,
   stopwatch: stopwatch,
@@ -25,6 +35,7 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(thunk))
 );
 
+// Handling received notifications
 const App = () => {
   return (
     <Provider store={store}>

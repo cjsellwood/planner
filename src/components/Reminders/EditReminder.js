@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Pressable, TextInput, Text, View } from "react-native";
-import theme from "../../theme";
+import theme, { noteColors } from "../../theme";
 import { v4 as uuid } from "uuid";
 import { useDispatch } from "react-redux";
 import { addNewReminder } from "../../store/actions/reminders";
 import ModalButtons from "./ModalButtons";
 import DateButtons from "./DateButtons";
+import * as Notifications from "expo-notifications";
+import formatDate from "../../functions/formatDate";
+import showAmPm from "../../functions/showAmPm";
+import rgbToHex from "../../functions/rgbToHex";
 
 const EditReminder = ({ setNewReminderModal }) => {
   const [label, setLabel] = useState("");
@@ -36,7 +40,24 @@ const EditReminder = ({ setNewReminderModal }) => {
     setPickerMode(currentMode);
   };
 
-  const submitNewReminder = () => {
+  const triggerNotification = (label, time, color) => {
+    console.log(Math.floor(time - Date.now()) / 1000 + "s");
+
+    const scheduledId = Notifications.scheduleNotificationAsync({
+      content: {
+        title: label,
+        body: `${showAmPm(new Date(time))} - ${formatDate(new Date(time))}`,
+        color: rgbToHex(noteColors[color]),
+        data: { page: "/reminders" },
+      },
+      trigger: {
+        seconds: (time - Date.now()) / 1000,
+      },
+    });
+    return scheduledId;
+  };
+
+  const submitNewReminder = async () => {
     const currentDate = date;
     currentDate.setSeconds(0, 0);
     if (currentDate.getTime() < Date.now()) {
@@ -44,8 +65,18 @@ const EditReminder = ({ setNewReminderModal }) => {
       return;
     }
     setNewReminderModal(false);
+
+    const scheduleId = await triggerNotification(label, date.getTime(), color);
+    console.log(scheduleId);
+
     dispatch(
-      addNewReminder({ id: uuid(), label, time: date.getTime(), color })
+      addNewReminder({
+        id: uuid(),
+        label,
+        time: date.getTime(),
+        color,
+        scheduleId,
+      })
     );
   };
 

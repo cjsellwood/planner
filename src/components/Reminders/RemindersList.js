@@ -29,6 +29,7 @@ const RemindersList = () => {
         ) : null}
         {remindersCopy
           .filter((reminder) => reminder.time <= Date.now())
+          .sort((a, b) => b.time - a.time)
           .map((reminder) => (
             <React.Fragment key={reminder.id}>
               <ReminderItem reminder={reminder} />

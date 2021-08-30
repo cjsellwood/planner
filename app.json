@@ -27,11 +27,12 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#1E1E1E"
       },
-      "package": "com.yourcompany.yourappname",
+      "package": "com.cjsellwood.planner",
       "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "entryPoint": "./index.js"
   }
 }

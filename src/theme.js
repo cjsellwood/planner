@@ -1,4 +1,4 @@
-const noteColors = [
+export const noteColors = [
   "rgb(40, 40, 40)",
   "rgb(80, 0, 0)",
   "rgb(122, 54, 19)",

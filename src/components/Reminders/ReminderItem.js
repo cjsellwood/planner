@@ -5,9 +5,15 @@ import theme from "../../theme";
 import { deleteReminder } from "../../store/actions/reminders";
 import showAmPm from "../../functions/showAmPm";
 import formatDate from "../../functions/formatDate";
+import * as Notifications from "expo-notifications";
 
 const ReminderItem = ({ reminder }) => {
   const dispatch = useDispatch();
+
+  const deletePress = async () => {
+    dispatch(deleteReminder(reminder.id));
+    await Notifications.cancelScheduledNotificationAsync(reminder.scheduleId);
+  };
 
   return (
     <View style={[styles.reminderItem, styles["color" + reminder.color]]}>
@@ -20,7 +26,7 @@ const ReminderItem = ({ reminder }) => {
       </View>
       <View style={styles.deleteButtonContainer}>
         <Pressable
-          onPress={() => dispatch(deleteReminder(reminder.id))}
+          onPress={deletePress}
           style={styles.deleteButton}
           android_ripple={{
             color: "rgba(255, 255, 255, 0.1)",
