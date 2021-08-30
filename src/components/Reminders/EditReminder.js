@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet, Pressable, TextInput, Text, View } from "react-native";
+import {
+  StyleSheet,
+  Pressable,
+  TextInput,
+  Text,
+  View,
+} from "react-native";
 import theme, { noteColors } from "../../theme";
 import "react-native-get-random-values";
 import { v4 as uuid } from "uuid";
@@ -42,8 +48,6 @@ const EditReminder = ({ setNewReminderModal }) => {
   };
 
   const triggerNotification = (label, time, color) => {
-    console.log(Math.floor(time - Date.now()) / 1000 + "s");
-
     const scheduledId = Notifications.scheduleNotificationAsync({
       content: {
         title: label,
@@ -68,7 +72,6 @@ const EditReminder = ({ setNewReminderModal }) => {
     setNewReminderModal(false);
 
     const scheduleId = await triggerNotification(label, date.getTime(), color);
-    console.log(scheduleId);
 
     dispatch(
       addNewReminder({
@@ -128,7 +131,6 @@ export default EditReminder;
 const styles = StyleSheet.create({
   modalContent: {
     padding: 16,
-    marginBottom: 100,
     borderRadius: 8,
     borderColor: "gray",
     borderWidth: 1,
@@ -143,6 +145,7 @@ const styles = StyleSheet.create({
     color: "white",
     borderColor: "gray",
     borderBottomWidth: 1,
+    fontSize: 18,
   },
   colorsWrapper: {
     alignItems: "center",

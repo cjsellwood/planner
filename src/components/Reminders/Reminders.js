@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, StatusBar, Modal, Pressable } from "react-native";
+import {
+  StyleSheet,
+  View,
+  StatusBar,
+  Modal,
+  Pressable,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 import { setPage } from "../../store/actions/global";
@@ -44,14 +52,19 @@ const Reminders = () => {
         onRequestClose={() => setNewReminderModal(false)}
         statusBarTranslucent={true}
       >
-        <Pressable
-          onPress={() => {
-            setNewReminderModal(false);
-          }}
-          style={styles.modal}
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={styles.avoidingView}
         >
-          <EditReminder setNewReminderModal={setNewReminderModal} />
-        </Pressable>
+          <Pressable
+            onPress={() => {
+              setNewReminderModal(false);
+            }}
+            style={styles.modal}
+          >
+            <EditReminder setNewReminderModal={setNewReminderModal} />
+          </Pressable>
+        </KeyboardAvoidingView>
       </Modal>
     </View>
   );
@@ -70,10 +83,15 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 30,
   },
+  avoidingView: {
+    flex: 1,
+    paddingBottom: -50,
+  },
   modal: {
     justifyContent: "center",
     alignItems: "center",
     flex: 1,
     backgroundColor: "rgba(1, 1, 1, 0.7)",
+    marginBottom: -50,
   },
 });

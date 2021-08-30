@@ -6,17 +6,28 @@ import TimerIcon from "./icons/TimerIcon";
 import RemindersIcon from "./icons/RemindersIcon";
 import NotesIcon from "./icons/NotesIcon";
 import theme from "../../theme";
+import HideWhenKeyboard from "./HideWhenKeyboard";
 
 const Navbar = () => {
   return (
-    <View style={styles.navBar}>
-      <ScrollView horizontal={true} contentContainerStyle={styles.bar}>
-        <NavbarItem text="Notes" to="/notes" icon={<NotesIcon />} />
-        <NavbarItem text="Reminders" to="/reminders" icon={<RemindersIcon />} />
-        <NavbarItem text="Timer" to="/timer" icon={<TimerIcon />} />
-        <NavbarItem text="Stopwatch" to="/stopwatch" icon={<StopwatchIcon />} />
-      </ScrollView>
-    </View>
+    <HideWhenKeyboard>
+      <View style={styles.navBar}>
+        <ScrollView horizontal={true} contentContainerStyle={styles.bar}>
+          <NavbarItem text="Notes" to="/notes" icon={<NotesIcon />} />
+          <NavbarItem
+            text="Reminders"
+            to="/reminders"
+            icon={<RemindersIcon />}
+          />
+          <NavbarItem text="Timer" to="/timer" icon={<TimerIcon />} />
+          <NavbarItem
+            text="Stopwatch"
+            to="/stopwatch"
+            icon={<StopwatchIcon />}
+          />
+        </ScrollView>
+      </View>
+    </HideWhenKeyboard>
   );
 };
 
