@@ -72,7 +72,6 @@ const primaryColors = [
 ];
 
 const randomColor = Math.floor(Math.random() * primaryColors.length);
-console.log("PRIMARY_COLOR", randomColor, primaryColors[randomColor]);
 
 const theme = {
   colors: {
