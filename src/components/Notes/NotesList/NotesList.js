@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text, FlatList, StatusBar } from "react-native";
+import React, { useEffect } from "react";
+import { StyleSheet, View, FlatList, StatusBar } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 import { setPage } from "../../../store/actions/global";
@@ -34,8 +34,7 @@ const NotesList = () => {
         backgroundColor={theme.colors.mainBackground}
         hidden={false}
       />
-      <AddNoteButton/>
-      <Text style={styles.notesHeader}>Notes</Text>
+      <AddNoteButton />
       <FlatList
         keyExtractor={(item) => item.id.toString()}
         data={
@@ -57,12 +56,6 @@ const styles = StyleSheet.create({
     flex: 1,
     position: "relative",
     marginBottom: theme.navBarHeight + 10,
-  },
-  notesHeader: {
-    color: "white",
-    fontSize: 20,
-    textAlign: "center",
-    padding: 8,
   },
   separator: {
     padding: 6,

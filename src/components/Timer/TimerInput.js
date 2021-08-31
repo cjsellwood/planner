@@ -44,9 +44,12 @@ export default TimerInput;
 
 const styles = StyleSheet.create({
   container: {
-    height: 180,
     alignItems: "center",
     justifyContent: "center",
+    // minHeight: 100,
+    // maxHeight: 180,
+    // flex: 0.05,
+    flex: 1,
   },
   timeInput: {
     flexDirection: "row",
