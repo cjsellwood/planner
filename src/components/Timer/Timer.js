@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View , StatusBar} from "react-native";
+import { StyleSheet, View, StatusBar } from "react-native";
 import { setPage } from "../../store/actions/global";
 import { useDispatch, useSelector } from "react-redux";
 import TimerInput from "./TimerInput";
@@ -17,6 +17,7 @@ import {
   initTimer,
 } from "../../store/actions/timer";
 import { Audio } from "expo-av";
+import * as Notifications from "expo-notifications";
 
 const Timer = () => {
   const [intervalId, setIntervalId] = useState(null);
@@ -35,12 +36,32 @@ const Timer = () => {
     dispatch(initTimer());
   }, []);
 
+  const triggerNotification = (time) => {
+    const scheduledId = Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Timer Finished",
+        body: "0:00",
+        data: { page: "/timer" },
+      },
+      trigger: {
+        seconds: time / 1000,
+      },
+    });
+    return scheduledId;
+  };
+
   // Start interval if stored values should make the timer run
   useEffect(() => {
     if (started && !paused) {
       // Set timer to 0 if already finished
       if (endTime - Date.now() <= 0) {
         dispatch(finishTimer());
+        clearInterval(beepInterval);
+        playSound();
+        const interval = setInterval(() => {
+          playSound();
+        }, 800);
+        setBeepInterval(interval);
         return;
       }
       const interval = setInterval(() => {
@@ -54,7 +75,7 @@ const Timer = () => {
           playSound();
           const interval = setInterval(() => {
             playSound();
-          }, 1000);
+          }, 800);
           setBeepInterval(interval);
           return;
         }
@@ -87,6 +108,8 @@ const Timer = () => {
     }
     const newEndTime = Date.now() + newTimer;
     dispatch(startTimer(newEndTime, newTimer));
+
+    triggerNotification(newTimer);
 
     const interval = setInterval(() => {
       // Stop interval if once 0 reached
