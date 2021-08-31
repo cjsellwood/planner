@@ -13,23 +13,11 @@ import * as Notifications from "expo-notifications";
 const Main = () => {
   const history = useHistory();
   useEffect(() => {
-    Notifications.getAllScheduledNotificationsAsync().then((res) => {
-      console.log("NOTIFICATIONS", res);
-    });
-    const receivedSubscription = Notifications.addNotificationReceivedListener(
-      (notification) => {
-        console.log("Notification Received!");
-        console.log(notification);
-      }
-    );
     const responseSubscription =
       Notifications.addNotificationResponseReceivedListener((response) => {
-        console.log("Notification Clicked!");
-        console.log(response);
         history.push(response.notification.request.content.data.page);
       });
     return () => {
-      receivedSubscription.remove();
       responseSubscription.remove();
     };
   }, []);
