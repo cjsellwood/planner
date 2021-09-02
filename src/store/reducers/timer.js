@@ -5,6 +5,7 @@ const initialState = {
   endTime: 0,
   paused: true,
   finished: false,
+  scheduleId: null,
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -36,12 +37,14 @@ const reducer = (state = initialState, action) => {
         paused: false,
         endTime: action.endTime,
         timer: action.timer,
+        scheduleId: action.scheduleId,
       };
     case "PAUSE_TIMER":
       return {
         ...state,
         paused: true,
         timer: action.timer,
+        scheduleId: null,
       };
     case "DELETE_TIMER":
       return {
@@ -52,6 +55,7 @@ const reducer = (state = initialState, action) => {
         endTime: 0,
         timer: 0,
         finished: false,
+        scheduleId: null,
       };
     case "CHANGE_TIMER":
       return {

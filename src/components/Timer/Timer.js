@@ -22,9 +22,8 @@ import * as Notifications from "expo-notifications";
 const Timer = () => {
   const [intervalId, setIntervalId] = useState(null);
   const dispatch = useDispatch();
-  const { started, endTime, paused, timer, storageUsed } = useSelector(
-    (state) => state.timer
-  );
+  const { started, endTime, paused, timer, storageUsed, scheduleId } =
+    useSelector((state) => state.timer);
 
   // Set highlighted navbar tab
   useEffect(() => {
@@ -100,19 +99,19 @@ const Timer = () => {
     return timer;
   };
 
-  const playPress = (timerInput) => {
+  const playPress = async (timerInput) => {
     // If on first press, get the entered time
     let newTimer = timer;
     if (timer === 0) {
       newTimer = convertToTimer(timerInput);
     }
     const newEndTime = Date.now() + newTimer;
-    dispatch(startTimer(newEndTime, newTimer));
 
-    triggerNotification(newTimer);
+    const scheduleId = await triggerNotification(newTimer);
+    dispatch(startTimer(newEndTime, newTimer, scheduleId));
 
     const interval = setInterval(() => {
-      // Stop interval if once 0 reached
+      // Stop interval once 0 reached
       if (newEndTime - Date.now() <= 0) {
         clearInterval(interval);
         setIntervalId(null);
@@ -131,13 +130,15 @@ const Timer = () => {
     setIntervalId(interval);
   };
 
-  const pausePress = () => {
+  const pausePress = async () => {
+    await Notifications.cancelScheduledNotificationAsync(scheduleId);
     clearInterval(intervalId);
     setIntervalId(null);
     dispatch(pauseTimer(endTime - Date.now()));
   };
 
-  const deletePress = () => {
+  const deletePress = async () => {
+    await Notifications.cancelScheduledNotificationAsync(scheduleId);
     clearInterval(beepInterval);
     clearInterval(intervalId);
     setIntervalId(null);

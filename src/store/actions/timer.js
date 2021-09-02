@@ -21,7 +21,7 @@ export const clearTimerInput = () => {
   };
 };
 
-export const startTimer = (endTime, timer) => {
+export const startTimer = (endTime, timer, scheduleId) => {
   return async (dispatch) => {
     const stored = await get("timer");
     await store({
@@ -30,11 +30,13 @@ export const startTimer = (endTime, timer) => {
       paused: false,
       endTime: endTime,
       timer: timer,
+      scheduleId: scheduleId,
     });
     dispatch({
       type: "START_TIMER",
       endTime,
       timer,
+      scheduleId,
     });
   };
 };
