@@ -30,7 +30,7 @@ const NoteCheckboxes = ({ checkboxes }) => {
             );
           }
         })}
-      {checkboxes.length > 5 ? (
+      {checkboxes.filter((line) => !line.checked).length > 5 ? (
         <Text style={styles.tooLongText}>...</Text>
       ) : null}
     </View>
