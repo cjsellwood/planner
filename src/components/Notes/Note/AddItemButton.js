@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingLeft: 1,
+    marginVertical: 8,
   },
   addItemText: {
     color: "white",

@@ -35,6 +35,7 @@ const CheckboxEditingContainer = ({ checkboxes, noteIndex }) => {
                 multiline={true}
                 onFocus={() => setDeleteButton(index)}
                 onBlur={() => setDeleteButton(null)}
+                autoFocus
               />
               {deleteButton === index ? (
                 <DeleteButton noteIndex={noteIndex} index={index} />
