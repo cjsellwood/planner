@@ -4,12 +4,15 @@ import { useDispatch } from "react-redux";
 import PlusIcon from "./icons/PlusIcon";
 import { addNewCheckbox } from "../../../store/actions/notes";
 
-const AddItemButton = ({ noteIndex }) => {
+const AddItemButton = ({ noteIndex, setItemAdded }) => {
   const dispatch = useDispatch();
   return (
     <Pressable
       style={styles.addItemButton}
-      onPress={() => dispatch(addNewCheckbox(noteIndex))}
+      onPress={() => {
+        dispatch(addNewCheckbox(noteIndex));
+        setItemAdded(true);
+      }}
       android_ripple={{
         color: "rgba(255, 255, 255, 0.1)",
         borderless: false,

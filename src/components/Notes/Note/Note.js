@@ -82,7 +82,6 @@ const Note = () => {
             placeholder="Note"
             placeholderTextColor={"gray"}
             multiline={true}
-            autoFocus
           />
         ) : (
           <CheckboxEditingContainer
@@ -99,6 +98,9 @@ const Note = () => {
 export default Note;
 
 const styles = StyleSheet.create({
+  kav: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     marginBottom: theme.navBarHeight,

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, View, TextInput } from "react-native";
 import { useDispatch } from "react-redux";
 import { changeCheckboxText } from "../../../store/actions/notes";
@@ -17,6 +17,17 @@ const CheckboxEditingContainer = ({ checkboxes, noteIndex }) => {
   };
 
   const [deleteButton, setDeleteButton] = useState(null);
+
+  // Used for focusing on new checkbox input when add item button pressed
+  const lastInput = useRef(null);
+  const [itemAdded, setItemAdded] = useState(false);
+
+  useEffect(() => {
+    if (itemAdded) {
+      lastInput.current.focus();
+      setItemAdded(false);
+    }
+  }, [itemAdded]);
   return (
     <View style={styles.checkBoxViewContainer}>
       {checkboxes.map((line, index) => {
@@ -35,7 +46,7 @@ const CheckboxEditingContainer = ({ checkboxes, noteIndex }) => {
                 multiline={true}
                 onFocus={() => setDeleteButton(index)}
                 onBlur={() => setDeleteButton(null)}
-                autoFocus
+                ref={lastInput}
               />
               {deleteButton === index ? (
                 <DeleteButton noteIndex={noteIndex} index={index} />
@@ -46,7 +57,7 @@ const CheckboxEditingContainer = ({ checkboxes, noteIndex }) => {
           );
         }
       })}
-      <AddItemButton noteIndex={noteIndex} />
+      <AddItemButton noteIndex={noteIndex} setItemAdded={setItemAdded} />
       <CheckboxSeparator
         show={checkboxes.filter((line) => line.checked === true).length > 0}
       />
