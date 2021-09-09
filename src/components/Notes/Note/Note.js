@@ -82,6 +82,7 @@ const Note = () => {
             placeholder="Note"
             placeholderTextColor={"gray"}
             multiline={true}
+            autoFocus
           />
         ) : (
           <CheckboxEditingContainer

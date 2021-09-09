@@ -14,7 +14,7 @@ const CheckboxButton = ({ noteIndex, index, checked }) => {
       android_ripple={{
         color: "rgba(255, 255, 255, 0.4)",
         borderless: false,
-        radius: 12,
+        radius: 15,
       }}
     >
       {checked ? <CheckedFill /> : <SquareIcon />}
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   checkIconContainer: {
     justifyContent: "center",
     alignItems: "center",
-    width: 20,
-    height: 20,
+    width: 24,
+    height: 24,
   },
 });
