@@ -79,6 +79,7 @@ export default (state = initialState, action) => {
     case "CHANGE_CHECKBOX_TEXT": {
       const notesCopy = duplicateNotes(state.notes);
       notesCopy[action.noteIndex].checkboxes[action.line].text = action.text;
+      notesCopy[action.noteIndex].lastEdited = Date.now();
       return {
         ...state,
         notes: notesCopy,
@@ -87,6 +88,7 @@ export default (state = initialState, action) => {
     case "DELETE_CHECKBOX": {
       const notesCopy = duplicateNotes(state.notes);
       notesCopy[action.noteIndex].checkboxes.splice(action.line, 1);
+      notesCopy[action.noteIndex].lastEdited = Date.now();
       return {
         ...state,
         notes: notesCopy,
@@ -96,6 +98,7 @@ export default (state = initialState, action) => {
       const notesCopy = duplicateNotes(state.notes);
       notesCopy[action.noteIndex].checkboxes[action.line].checked =
         !notesCopy[action.noteIndex].checkboxes[action.line].checked;
+      notesCopy[action.noteIndex].lastEdited = Date.now();
       return {
         ...state,
         notes: notesCopy,
@@ -104,6 +107,7 @@ export default (state = initialState, action) => {
     case "ADD_NEW_CHECKBOX": {
       const notesCopy = duplicateNotes(state.notes);
       notesCopy[action.noteIndex].checkboxes.push({ checked: false, text: "" });
+      notesCopy[action.noteIndex].lastEdited = Date.now();
       return {
         ...state,
         notes: notesCopy,

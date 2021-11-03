@@ -18,6 +18,7 @@ export const changeTitle = (noteIndex, title) => {
       try {
         const stored = await get();
         stored[noteIndex].title = title;
+        stored[noteIndex].lastEdited = Date.now();
         await store(stored);
       } catch (error) {
         null;
@@ -40,6 +41,7 @@ export const changeText = (noteIndex, text) => {
       try {
         const stored = await get();
         stored[noteIndex].text = text;
+        stored[noteIndex].lastEdited = Date.now();
         await store(stored);
       } catch (error) {
         null;
@@ -154,6 +156,7 @@ export const changeCheckboxText = (noteIndex, text, line) => {
       try {
         const stored = await get();
         stored[noteIndex].checkboxes[line].text = text;
+        stored[noteIndex].lastEdited = Date.now();
         await store(stored);
       } catch (error) {
         null;
@@ -172,6 +175,7 @@ export const deleteCheckbox = (noteIndex, line) => {
 
     const stored = await get();
     stored[noteIndex].checkboxes.splice(line, 1);
+    stored[noteIndex].lastEdited = Date.now();
     await store(stored);
   };
 };
@@ -187,6 +191,7 @@ export const toggleCheckbox = (noteIndex, line) => {
     const stored = await get();
     stored[noteIndex].checkboxes[line].checked =
       !stored[noteIndex].checkboxes[line].checked;
+    stored[noteIndex].lastEdited = Date.now();
     await store(stored);
   };
 };
@@ -199,6 +204,7 @@ export const addNewCheckbox = (noteIndex) => {
     });
     const stored = await get();
     stored[noteIndex].checkboxes.push({ checked: false, text: "" });
+    stored[noteIndex].lastEdited = Date.now();
     await store(stored);
   };
 };

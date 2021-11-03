@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   note: {
     marginHorizontal: 8,
     padding: 10,
-    borderRadius: 4,
+    borderRadius: 8,
     elevation: 4,
   },
   title: {

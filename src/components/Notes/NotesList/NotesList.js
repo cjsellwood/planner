@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
     flex: 1,
     position: "relative",
     marginBottom: theme.navBarHeight + 10,
+    marginTop: 4,
   },
   separator: {
     padding: 6,
