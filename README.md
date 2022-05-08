@@ -13,3 +13,7 @@ Build an apk for installing the app
 ### expo publish
 
 Update the javascript code that will then be automatically updated on the installed app
+
+### npm run build
+
+Create android apk
